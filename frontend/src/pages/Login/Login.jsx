@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './Login.css';
-import { authHelper } from '../../utils/authHelper';
 
 const Login = () => {
     const [utorid, setUtorid] = useState('');
@@ -40,7 +39,11 @@ const Login = () => {
                 navigate('/dashboard/');
             }
         } catch (err) {
-            setError(err.message);
+            if (err === "Failed to fetch") {
+                setError("User not found")
+            } else {
+                setError(err.message);
+            }
         } finally {
             setLoading(false);
         }

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import EventCard from './EventCard';
-import { authHelper } from '../../utils/authHelper';
 import './Events.css';
 
 const EventsPage = () => {
