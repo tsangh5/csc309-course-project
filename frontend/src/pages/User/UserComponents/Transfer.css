@@ -1,0 +1,90 @@
+.pt-container {
+    max-width: 400px;
+    margin: 30px auto;
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    font-family: sans-serif;
+}
+
+.pt-header {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 16px;
+}
+
+.pt-status {
+    padding: 12px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+
+.pt-status-error {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border-color: #fecaca;
+}
+
+.pt-status-success {
+    background-color: #dcfce7;
+    color: #15803d;
+    border-color: #bbf7d0;
+}
+
+.pt-form-group {
+    margin-bottom: 16px;
+}
+
+.pt-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 4px;
+}
+
+.pt-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.pt-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.pt-textarea {
+    resize: none;
+    font-family: inherit;
+}
+
+.pt-button {
+    width: 100%;
+    padding: 10px 16px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.pt-button:hover:not(:disabled) {
+    background-color: #1d4ed8;
+}
+
+.pt-button:disabled {
+    background-color: #93c5fd;
+    cursor: not-allowed;
+}

@@ -1,0 +1,1 @@
+I used AI to help me design my schemas for users, transactions, events, and the ways they interact.

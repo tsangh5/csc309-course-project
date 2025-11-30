@@ -1,0 +1,231 @@
+.home-container {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4rem 2rem;
+    min-height: 80vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    position: relative;
+}
+
+.hero-content {
+    flex: 1;
+    max-width: 600px;
+    padding-left: 5%;
+    z-index: 1;
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: #1e293b;
+}
+
+.highlight {
+    color: #4f46e5;
+    background: linear-gradient(120deg, #4f46e5 0%, #818cf8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: #64748b;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+}
+
+.hero-btns {
+    display: flex;
+    gap: 1rem;
+}
+
+.btn {
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+}
+
+.btn-primary {
+    background: #4f46e5;
+    color: white;
+    box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
+}
+
+.btn-primary:hover {
+    background: #4338ca;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.23);
+}
+
+.btn-outline {
+    background: transparent;
+    color: #4f46e5;
+    border: 2px solid #4f46e5;
+}
+
+.btn-outline:hover {
+    background: rgba(79, 70, 229, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Hero Visual & Animations */
+.hero-visual {
+    flex: 1;
+    position: relative;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.floating-card {
+    position: absolute;
+    background: white;
+    padding: 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    color: #1e293b;
+    animation: float 6s ease-in-out infinite;
+}
+
+.floating-card i {
+    font-size: 2rem;
+    color: #4f46e5;
+}
+
+.card-1 {
+    top: 20%;
+    right: 20%;
+    animation-delay: 0s;
+}
+
+.card-2 {
+    top: 50%;
+    right: 10%;
+    animation-delay: 2s;
+}
+
+.card-3 {
+    top: 60%;
+    right: 35%;
+    animation-delay: 4s;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Features Section */
+.features-section {
+    padding: 5rem 2rem;
+    background: white;
+    text-align: center;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 4rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    padding: 2rem;
+    border-radius: 20px;
+    background: #f8fafc;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.feature-icon {
+    width: 70px;
+    height: 70px;
+    background: #e0e7ff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.feature-icon i {
+    font-size: 1.75rem;
+    color: #4f46e5;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #1e293b;
+}
+
+.feature-card p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 960px) {
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 2rem;
+    }
+
+    .hero-content {
+        padding-left: 0;
+        margin-bottom: 3rem;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .hero-btns {
+        justify-content: center;
+    }
+
+    .hero-visual {
+        width: 100%;
+        height: 400px;
+    }
+}

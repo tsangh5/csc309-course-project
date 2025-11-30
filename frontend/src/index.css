@@ -1,0 +1,22 @@
+/* Global Styles */
+:root {
+  --primary-color: #6366f1; /* Indigo 500 */
+  --secondary-color: #4f46e5; /* Indigo 600 */
+  --background-color: #f8fafc; /* Slate 50 */
+  --text-color: #1e293b; /* Slate 800 */
+  --font-family: 'Inter', sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

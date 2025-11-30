@@ -1,0 +1,90 @@
+.pr-container {
+    max-width: 400px;
+    margin: 30px auto;
+    padding: 24px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e5e7eb;
+    font-family: sans-serif;
+}
+
+.pr-header {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 16px;
+}
+
+.pr-status {
+    padding: 12px;
+    margin-bottom: 16px;
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+
+.pr-status-error {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border-color: #fecaca;
+}
+
+.pr-status-success {
+    background-color: #dcfce7;
+    color: #15803d;
+    border-color: #bbf7d0;
+}
+
+.pr-form-group {
+    margin-bottom: 16px;
+}
+
+.pr-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 4px;
+}
+
+.pr-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.pr-input:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.pr-textarea {
+    resize: none;
+    font-family: inherit;
+}
+
+.pr-button {
+    width: 100%;
+    padding: 10px 16px;
+    background-color: #ea580c;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.pr-button:hover:not(:disabled) {
+    background-color: #c2410c;
+}
+
+.pr-button:disabled {
+    background-color: #fdba74;
+    cursor: not-allowed;
+}
