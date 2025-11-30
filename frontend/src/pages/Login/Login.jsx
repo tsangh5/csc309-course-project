@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import './Login.css';
-import { authHelper } from '../../utils/authHelper';
 
 const Login = () => {
     const [utorid, setUtorid] = useState('');

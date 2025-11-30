@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { authHelper } from '../../utils/authHelper.js';
 import './Promotions.css';
 
@@ -21,7 +21,6 @@ const PromotionsList = () => {
     });
 
     const BASE_URL = process.env.REACT_APP_BACKEND_URL;
-    const navigate = useNavigate();
 
     useEffect(() => {
         const decoded = authHelper();
@@ -66,7 +65,7 @@ const PromotionsList = () => {
         } finally {
             setLoading(false);
         }
-    }, [page, filters]);
+    }, [page, filters, BASE_URL]);
 
     useEffect(() => {
         fetchPromotions();
