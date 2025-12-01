@@ -44,12 +44,6 @@ const Navbar = () => {
             <Link to="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
                 LoyaltyApp
             </Link>
-            {isLoggedIn && (
-                <div className="menu-icon" onClick={toggleMenu}>
-                    <span className="hamburger"></span>
-                </div>
-            )}
-
             <ul className={menuClass}>
                 {isLoggedIn ? (
                     <>
@@ -76,23 +70,6 @@ const Navbar = () => {
                                 Promotions
                             </NavLink>
                         </li>
-                        <li className="nav-item user-menu" ref={dropdownRef}>
-                            <div className="user-toggle" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-                                <FaUserCircle className="user-icon" />
-                                <span className="user-name">{user.name}</span>
-                            </div>
-                            {isDropdownOpen && (
-                                <div className="user-dropdown">
-                                    <div className="user-info">
-                                        {console.log("user:", user)}
-                                        <p className="user-name-display">{user.utorid}</p>
-                                    </div>
-                                    <button className="logout-btn" onClick={handleLogout}>
-                                        Logout
-                                    </button>
-                                </div>
-                            )}
-                        </li>
                     </>
                 ) : (
                     <li className="nav-item">
@@ -102,6 +79,30 @@ const Navbar = () => {
                     </li>
                 )}
             </ul >
+            {isLoggedIn && (
+                <div className="navbar-actions">
+                    <div className="user-menu" ref={dropdownRef}>
+                        <div className="user-toggle" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                            <FaUserCircle className="user-icon" />
+                            <span className="user-name">{user.utorid}</span>
+                        </div>
+                        {isDropdownOpen && (
+                            <div className="user-dropdown">
+                                <div className="user-info">
+                                    {console.log("user:", user)}
+                                    <p className="user-name-display">{user.role}</p>
+                                </div>
+                                <button className="logout-btn" onClick={handleLogout}>
+                                    Logout
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                    <div className="menu-icon" onClick={toggleMenu}>
+                        <span className="hamburger"></span>
+                    </div>
+                </div>
+            )}
         </nav >
     );
 };

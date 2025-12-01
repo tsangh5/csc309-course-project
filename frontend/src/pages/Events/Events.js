@@ -49,14 +49,6 @@ const EventsPage = () => {
             setEvents(data.results);
             setTotalPages(Math.ceil(data.count / LIMIT));
 
-            // Populate userRsvps from the response
-            const rsvps = new Set();
-            data.results.forEach(event => {
-                if (event.isRsvped) {
-                    rsvps.add(event.id);
-                }
-            });
-            setUserRsvps(rsvps);
 
         } catch (err) {
             setError('Failed to load events. Please try again later.');
@@ -83,39 +75,45 @@ const EventsPage = () => {
                 throw new Error(errData.error || 'Failed to RSVP');
             }
 
-            setUserRsvps(prev => new Set(prev).add(eventId));
+            fetchUser();
             fetchEvents();
-            alert('RSVP successful!');
         } catch (err) {
             alert(err.message || 'Failed to RSVP');
         }
     };
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const baseUrl = process.env.REACT_APP_BACKEND_URL;
-                const response = await fetch(`${baseUrl}/users/me`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user data');
+    const fetchUser = async () => {
+        try {
+            const baseUrl = process.env.REACT_APP_BACKEND_URL;
+            const response = await fetch(`${baseUrl}/users/me`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 }
+            });
 
-                const data = await response.json();
-                setUser(data);
-            } catch (err) {
-                console.error(err);
+            if (!response.ok) {
+                throw new Error('Failed to fetch user data');
             }
-        };
 
+            const data = await response.json();
+            setUser(data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    useEffect(() => {
         if (token) {
             fetchUser();
         }
     }, [token]);
+
+    useEffect(() => {
+        if (user && user.guestEvents) {
+            const rsvps = new Set(user.guestEvents.map(ge => ge.eventId));
+            setUserRsvps(rsvps);
+        }
+    }, [user]);
 
     useEffect(() => {
         const fetchEvent = async (eventId) => {
@@ -162,13 +160,8 @@ const EventsPage = () => {
                 throw new Error(errData.error || 'Failed to cancel RSVP');
             }
 
-            setUserRsvps(prev => {
-                const next = new Set(prev);
-                next.delete(eventId);
-                return next;
-            });
+            fetchUser();
             fetchEvents();
-            alert('RSVP cancelled.');
         } catch (err) {
             alert(err.message || 'Failed to cancel RSVP');
         }
@@ -189,7 +182,6 @@ const EventsPage = () => {
             }
 
             fetchEvents();
-            alert('Event deleted successfully');
         } catch (err) {
             alert(err.message || 'Failed to delete event');
         }
