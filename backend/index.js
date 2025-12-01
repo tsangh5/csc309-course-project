@@ -2496,8 +2496,26 @@ app.use((err, req, res, next) => {
     next(err);
 });
 
+const { exec } = require('child_process');
+
 const server = app.listen(port, () => {
     console.log(`Server running on port ${port}`);
+
+    // Run DB setup asynchronously to prevent startup timeout
+    console.log('Starting DB setup (push & seed)...');
+    const setupCommand = 'npx prisma db push --accept-data-loss && node prisma/seed.js';
+    
+    exec(setupCommand, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`DB Setup Error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.error(`DB Setup Stderr: ${stderr}`);
+        }
+        console.log(`DB Setup Stdout: ${stdout}`);
+        console.log('DB Setup Complete');
+    });
 });
 
 server.on('error', (err) => {
