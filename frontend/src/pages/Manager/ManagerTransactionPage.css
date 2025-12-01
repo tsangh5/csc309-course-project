@@ -1,0 +1,66 @@
+.manager-transaction-page {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.manager-transaction-page h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #2c3e50;
+    width: 100%;
+}
+
+.transaction-content {
+    display: flex;
+    width: 100%;
+    gap: 2rem;
+    transition: all 0.3s ease;
+}
+
+.transaction-content.centered-view {
+    justify-content: center;
+}
+
+.transaction-content.centered-view .history-pane {
+    width: 100%;
+    max-width: 900px;
+}
+
+.transaction-content.split-view {
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.transaction-content.split-view .history-pane {
+    flex: 1;
+    min-width: 0;
+}
+
+.transaction-content.split-view .details-pane {
+    flex: 1;
+    background: white;
+    padding: 0;
+    border-radius: 8px;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    animation: 0.3s ease-out;
+    min-width: 0;
+}
+
+@media (max-width: 900px) {
+    .transaction-content.split-view {
+        flex-direction: column;
+    }
+
+    .transaction-content.centered-view .history-pane,
+    .transaction-content.split-view .history-pane,
+    .transaction-content.split-view .details-pane {
+        width: 100%;
+        max-width: 100%;
+    }
+}

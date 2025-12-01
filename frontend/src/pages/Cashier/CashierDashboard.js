@@ -10,12 +10,12 @@ const CashierDashboard = () => {
         <div className="cashier-dashboard">
             <h1>Cashier Dashboard</h1>
             {role === "cashier" || role === "manager" || role === "superuser" ? (
-                <div className="dashboard-actions">
-                    <Link to="/cashier/create-transaction" className="dashboard-card">
+                <div className="cashier-dashboard-actions">
+                    <Link to="/cashier/create-transaction" className="cashier-dashboard-card">
                         <h3>Create Transaction</h3>
                         <p>Record a new purchase for a user.</p>
                     </Link>
-                    <Link to="/cashier/process-redemption" className="dashboard-card">
+                    <Link to="/cashier/process-redemption" className="cashier-dashboard-card">
                         <h3>Process Redemption</h3>
                         <p>Process a redemption request by ID.</p>
                     </Link>
