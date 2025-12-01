@@ -37,22 +37,7 @@ app.use(
 
 if (!global.lastResetRequest) global.lastResetRequest = new Map();
 
-const port = (() => {
-    const args = process.argv;
-    return 4000
-    if (args.length !== 3) {
-        console.error("usage: node index.js port");
-        process.exit(1);
-    }
-
-    const num = parseInt(args[2], 10);
-    if (isNaN(num)) {
-        console.error("error: argument must be an integer.");
-        process.exit(1);
-    }
-
-    return num;
-})();
+const port = process.env.PORT || 4000;
 
 const prisma = new PrismaClient();
 
