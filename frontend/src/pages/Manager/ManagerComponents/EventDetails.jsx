@@ -3,7 +3,7 @@ import './EventDetails.css';
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 
-const EventDetails = ({ event, onBack, onUpdate }) => {
+const EventDetails = ({ event, onClose, onUpdate }) => {
     const [loading, setLoading] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [formData, setFormData] = useState({ ...event });
@@ -14,6 +14,10 @@ const EventDetails = ({ event, onBack, onUpdate }) => {
     useEffect(() => {
         fetchGuests();
     }, [event.id]);
+
+    useEffect(() => {
+        setFormData({ ...event });
+    }, [event]);
 
     const fetchGuests = async () => {
         try {
@@ -80,7 +84,6 @@ const EventDetails = ({ event, onBack, onUpdate }) => {
             if (!response.ok) throw new Error('Failed to delete event');
 
             alert("Event deleted.");
-            onBack();
             onUpdate();
         } catch (error) {
             console.error(error);
@@ -113,60 +116,109 @@ const EventDetails = ({ event, onBack, onUpdate }) => {
         }
     };
 
+    console.log(event)
+
     return (
-        <div className="event-details-container">
-            <button className="back-button" onClick={onBack}>&larr; Back to List</button>
-            <h2>Event Details #{event.id}</h2>
-
-            {editMode ? (
-                <div className="edit-form">
-                    <div className="form-group">
-                        <label>Name:</label>
-                        <input name="name" value={formData.name} onChange={handleInputChange} />
-                    </div>
-                    <div className="form-group">
-                        <label>Location:</label>
-                        <input name="location" value={formData.location} onChange={handleInputChange} />
-                    </div>
-                    <div className="form-group">
-                        <label>Start Time:</label>
-                        <input name="startTime" type="datetime-local" value={formData.startTime ? new Date(formData.startTime).toISOString().slice(0, 16) : ''} onChange={handleInputChange} />
-                    </div>
-                    <div className="form-group">
-                        <label>Capacity:</label>
-                        <input name="capacity" type="number" value={formData.capacity} onChange={handleInputChange} />
-                    </div>
-                    <div className="form-group">
-                        <label>Points:</label>
-                        <input name="points" type="number" value={formData.points} onChange={handleInputChange} />
-                    </div>
-                    <button className="btn-save" onClick={handleSave} disabled={loading}>Save</button>
-                    <button className="btn-cancel" onClick={() => setEditMode(false)} disabled={loading}>Cancel</button>
+        <div className="details-container">
+            <div className="details-header" style={{ backgroundColor: '#1e1e1e' }}>
+                <div>
+                    <h2 className="details-title">Event Details #{event.id}</h2>
                 </div>
-            ) : (
-                <div className="view-details">
-                    <p><strong>Name:</strong> {event.name}</p>
-                    <p><strong>Location:</strong> {event.location}</p>
-                    <p><strong>Start Time:</strong> {new Date(event.startTime).toLocaleString()}</p>
-                    <p><strong>Capacity:</strong> {event.capacity || 'Unlimited'}</p>
-                    <p><strong>Points:</strong> {event.points}</p>
-                    <div className="action-buttons">
-                        <button className="btn-edit" onClick={() => setEditMode(true)}>Edit</button>
-                        <button className="btn-delete" onClick={handleDelete}>Delete Event</button>
-                    </div>
-                </div>
-            )}
+                <button className="details-close-btn" onClick={onClose} aria-label="Close details">&times;</button>
+            </div>
 
-            <div className="guests-section">
-                <h3>Guests ({guests.length})</h3>
-                <ul>
-                    {guests.map(guest => (
-                        <li key={guest.id}>
-                            {guest.name} ({guest.utorid})
-                            <button className="btn-remove-guest" onClick={() => handleRemoveGuest(guest.id)}>Remove</button>
-                        </li>
-                    ))}
-                </ul>
+            <div className="details-content">
+                {editMode ? (
+                    <div className="edit-form">
+                        <div className="details-form-group">
+                            <label>Name:</label>
+                            <input name="name" value={formData.name} onChange={handleInputChange} />
+                        </div>
+                        <div className="details-form-group">
+                            <label>Location:</label>
+                            <input name="location" value={formData.location} onChange={handleInputChange} />
+                        </div>
+                        <div className="details-form-group">
+                            <label>Start Time:</label>
+                            <input name="startTime" value={formData.startTime} onChange={handleInputChange} />
+                        </div>
+                        <div className="details-form-group">
+                            <label>End Time:</label>
+                            <input name="endTime" value={formData.endTime} onChange={handleInputChange} />
+                        </div>
+                        <div className="details-form-group">
+                            <label>Points:</label>
+                            <input name="points" value={formData.points} onChange={handleInputChange} />
+                        </div>
+                        <div className="details-form-group">
+                            <div className="details-checkbox-group" style={{ accentColor: '#1e1e1e' }}>
+                                <label> Published</label>
+                                <input
+                                    type="checkbox"
+                                    name="verified"
+                                    checked={formData.verified}
+                                    onChange={handleInputChange}
+                                />
+                            </div>
+                        </div>
+
+                        <button className="details-btn-save" onClick={handleSave} disabled={loading}>Save</button>
+                        <button className="details-btn-cancel" onClick={() => setEditMode(false)} disabled={loading}>Cancel</button>
+                    </div>
+                ) : (
+                    <div className="details-details">
+                        <div className="details-row">
+                            <span className="details-label">Name</span>
+                            <span className="details-value">{event.name}</span>
+                        </div>
+                        <div className="details-row">
+                            <span className="details-label">Location</span>
+                            <span className="details-value">{event.location}</span>
+                        </div>
+                        <div className="details-row">
+                            <span className="details-label">Start Time</span>
+                            <span className="details-value">{new Date(event.startTime).toLocaleString()}</span>
+                        </div>
+                        <div className="details-row">
+                            <span className="details-label">End Time</span>
+                            <span className="details-value">{new Date(event.endTime).toLocaleString()}</span>
+                        </div>
+                        <div className="details-row">
+                            <span className="details-label">Guest Count</span>
+                            <span className="details-value">{event.numGuests}</span>
+                        </div>
+                        <div className="details-row">
+                            <span className="details-label">Points Awarded</span>
+                            <span className="details-value">{event.pointsAwarded}</span>
+                        </div>
+                        <div className="details-row">
+                            <span className="details-label">Points Remaining</span>
+                            <span className="details-value">{event.pointsRemain}</span>
+                        </div>
+                        <div className="details-row">
+                            <span className="details-label">Total Points</span>
+                            <span className="details-value">{event.pointsAwarded + event.pointsRemain}</span>
+                        </div>
+
+                        <div className="details-row">
+                            <span className="details-label">Published</span>
+                            <span className="details-value">{event.published ? 'Yes' : 'No'}</span>
+                        </div>
+                        <button className="details-btn-primary" onClick={() => setEditMode(true)}>Edit Event</button>
+                    </div>
+                )}
+
+                <div className="guests-section">
+                    <h3>Guests ({guests.length})</h3>
+                    <ul>
+                        {guests.map(guest => (
+                            <li key={guest.id}>
+                                {guest.name} ({guest.utorid})
+                                <button className="btn-remove-guest" onClick={() => handleRemoveGuest(guest.id)}>Remove</button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         </div>
     );

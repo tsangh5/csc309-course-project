@@ -9,7 +9,7 @@ const ManagerEventPage = () => {
     const [events, setEvents] = useState([]);
     const [selectedEvent, setSelectedEvent] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [editMode, setEditMode] = useState(false);
     const [newEventData, setNewEventData] = useState({
         name: '',
         location: '',
@@ -50,22 +50,20 @@ const ManagerEventPage = () => {
         setSelectedEvent(event);
     };
 
-    const handleBack = () => {
-        setSelectedEvent(null);
-    };
-
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
         fetchEvents();
-        if (selectedEvent) {
+        try {
             const token = getToken();
-            fetch(`${backendUrl}/events/${selectedEvent.id}`, {
+            const res = await fetch(`${backendUrl}/events/${selectedEvent.id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             })
-                .then(res => res.json())
-                .then(data => setSelectedEvent(data))
-                .catch(err => console.error(err));
+            if (res.ok) {
+                setSelectedEvent(res.json())
+            }
+        } catch (error) {
+            console.error(error);
         }
     };
 
@@ -85,7 +83,6 @@ const ManagerEventPage = () => {
             if (!response.ok) throw new Error('Failed to create event');
 
             alert("Event created successfully!");
-            setShowCreateModal(false);
             setNewEventData({ name: '', location: '', startTime: '', capacity: '', points: 0 });
             fetchEvents();
         } catch (error) {
@@ -95,81 +92,32 @@ const ManagerEventPage = () => {
     };
 
     return (
-        <div className="manager-event-page">
-            <h1>Event Management</h1>
+        <div className="manager-tables-page">
+            <h1>Transaction Management</h1>
             {loading && <p>Loading...</p>}
 
             {!loading && (
-                <>
-                    <EventHistory
-                        events={events}
-                        onEventSelect={handleEventSelect}
-                        onCreateEvent={() => setShowCreateModal(true)}
-                    />
+                <div className={`tables-content ${selectedEvent ? 'split-view' : 'centered-view'}`}>
 
-                    {showCreateModal && (
-                        <div className="modal-overlay">
-                            <div className="modal-content">
-                                <h2>Create New Event</h2>
-                                <form onSubmit={handleCreateEvent}>
-                                    <div className="form-group">
-                                        <label>Name:</label>
-                                        <input
-                                            value={newEventData.name}
-                                            onChange={e => setNewEventData({ ...newEventData, name: e.target.value })}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Location:</label>
-                                        <input
-                                            value={newEventData.location}
-                                            onChange={e => setNewEventData({ ...newEventData, location: e.target.value })}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Start Time:</label>
-                                        <input
-                                            type="datetime-local"
-                                            value={newEventData.startTime}
-                                            onChange={e => setNewEventData({ ...newEventData, startTime: e.target.value })}
-                                            required
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Capacity:</label>
-                                        <input
-                                            type="number"
-                                            value={newEventData.capacity}
-                                            onChange={e => setNewEventData({ ...newEventData, capacity: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="form-group">
-                                        <label>Points:</label>
-                                        <input
-                                            type="number"
-                                            value={newEventData.points}
-                                            onChange={e => setNewEventData({ ...newEventData, points: e.target.value })}
-                                        />
-                                    </div>
-                                    <div className="modal-actions">
-                                        <button type="submit" className="btn-primary">Create</button>
-                                        <button type="button" className="btn-secondary" onClick={() => setShowCreateModal(false)}>Cancel</button>
-                                    </div>
-                                </form>
-                            </div>
+                    <div className="history-pane">
+                        <EventHistory
+                            events={events}
+                            onEventSelect={handleEventSelect}
+                        />
+                    </div>
+
+                    {selectedEvent && (
+                        <div className="details-pane">
+                            <EventDetails
+                                event={selectedEvent}
+                                editMode={editMode}
+                                setEditMode={setEditMode}
+                                onClose={() => setSelectedEvent(null)}
+                                onUpdate={handleUpdate}
+                            />
                         </div>
                     )}
-                </>
-            )}
-
-            {!loading && selectedEvent && (
-                <EventDetails
-                    event={selectedEvent}
-                    onBack={handleBack}
-                    onUpdate={handleUpdate}
-                />
+                </div>
             )}
         </div>
     );

@@ -16,7 +16,7 @@ const PromotionHistory = ({ promotions, onPromotionSelect, onCreatePromotion }) 
         {
             key: 'type',
             label: 'Type',
-            render: (row) => <span className="th-badge th-badge-info">{row.type}</span>
+            render: (row) => <span className="datatable-badge datatable-badge-info">{row.type}</span>
         },
         {
             key: 'startTime',

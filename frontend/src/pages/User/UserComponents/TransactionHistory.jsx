@@ -12,7 +12,7 @@ const TransactionHistory = ({ transactions, onTransactionSelect }) => {
             key: 'type',
             label: 'Type',
             render: (row) => (
-                <span className={`th-badge th-badge-${row.type}`}>{row.type}</span>
+                <span className={`datatable-badge datatable-badge-${row.type}`}>{row.type}</span>
             )
         },
         {
@@ -30,7 +30,7 @@ const TransactionHistory = ({ transactions, onTransactionSelect }) => {
             render: (row) => {
                 const points = row.amount || 0;
                 return (
-                    <span className={`th-points ${points >= 0 ? 'positive' : 'negative'}`}>
+                    <span className={`datatable-points ${points >= 0 ? 'positive' : 'negative'}`}>
                         {points > 0 ? '+' : ''}{points}
                     </span>
                 );

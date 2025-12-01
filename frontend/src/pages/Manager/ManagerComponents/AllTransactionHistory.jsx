@@ -19,7 +19,7 @@ const AllTransactionHistory = ({ transactions, onTransactionSelect }) => {
             key: 'type',
             label: 'Type',
             render: (row) => (
-                <span className={`th-badge th-badge-${row.type}`}>{row.type}</span>
+                <span className={`datatable-badge datatable-badge-${row.type}`}>{row.type}</span>
             )
         },
         {
@@ -42,7 +42,7 @@ const AllTransactionHistory = ({ transactions, onTransactionSelect }) => {
                 if (redeemed > 0) points = -redeemed;
 
                 return (
-                    <span className={`th-points ${points >= 0 ? 'positive' : 'negative'}`}>
+                    <span className={`datatable-points ${points >= 0 ? 'positive' : 'negative'}`}>
                         {points > 0 ? '+' : ''}{points}
                     </span>
                 );
@@ -52,7 +52,7 @@ const AllTransactionHistory = ({ transactions, onTransactionSelect }) => {
             key: 'suspicious',
             label: 'Status',
             render: (row) => (
-                row.suspicious ? <span className="th-badge th-badge-red">Suspicious</span> : <span className="th-badge th-badge-green">OK</span>
+                row.suspicious ? <span className="datatable-badge datatable-badge-red">Suspicious</span> : <span className="datatable-badge datatable-badge-green">OK</span>
             )
         }
     ];

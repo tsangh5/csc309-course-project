@@ -1,4 +1,4 @@
-.th-card {
+.datatable-card {
     background-color: #fff;
     border-radius: 8px;
     border: 1px solid #e5e7eb;
@@ -9,7 +9,7 @@
     color: #1f2937;
 }
 
-.th-header {
+.datatable-header {
     padding: 24px;
     border-bottom: 1px solid #e5e7eb;
     display: flex;
@@ -17,7 +17,7 @@
     gap: 1rem;
 }
 
-.th-header-top {
+.datatable-header-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -25,20 +25,20 @@
     flex-wrap: wrap;
 }
 
-.th-title {
+.datatable-title {
     font-size: 1.25rem;
     font-weight: 600;
     color: #111827;
     margin: 0;
 }
 
-.th-controls {
+.datatable-controls {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
 }
 
-.th-select {
+.datatable-select {
     padding: 8px 12px;
     border: 1px solid #d1d5db;
     border-radius: 6px;
@@ -49,16 +49,16 @@
     cursor: pointer;
 }
 
-.th-select:focus {
+.datatable-select:focus {
     border-color: #3b82f6;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
-.th-search-container {
+.datatable-search-container {
     position: relative;
 }
 
-.th-search-input {
+.datatable-search-input {
     width: 50%;
     min-width: 250px;
     padding: 8px 12px 8px 36px;
@@ -70,12 +70,12 @@
     box-sizing: border-box;
 }
 
-.th-search-input:focus {
+.datatable-search-input:focus {
     border-color: #3b82f6;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
 }
 
-.th-search-icon {
+.datatable-search-icon {
     position: absolute;
     left: 10px;
     top: 50%;
@@ -86,20 +86,20 @@
     pointer-events: none;
 }
 
-.th-content {
+.datatable-content {
     padding: 0;
     overflow-x: auto;
     min-height: 300px;
 }
 
-.th-table {
+.datatable-table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
     font-size: 0.875rem;
 }
 
-.th-table th {
+.datatable-table th {
     background-color: #f9fafb;
     color: #6b7280;
     font-weight: 500;
@@ -111,22 +111,22 @@
     transition: background-color 0.2s;
 }
 
-.th-table th:hover {
+.datatable-table th:hover {
     background-color: #f3f4f6;
     color: #111827;
 }
 
-.th-table td {
+.datatable-table td {
     padding: 16px 24px;
     border-bottom: 1px solid #e5e7eb;
     color: #374151;
 }
 
-.th-table tr:hover {
+.datatable-table tr:hover {
     background-color: #f9fafb;
 }
 
-.th-pagination {
+.datatable-pagination {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -137,7 +137,7 @@
     font-size: 0.875rem;
 }
 
-.th-page-btn {
+.datatable-page-btn {
     padding: 6px 12px;
     border: 1px solid #d1d5db;
     background-color: white;
@@ -147,18 +147,18 @@
     font-size: 0.875rem;
 }
 
-.th-page-btn:hover:not(:disabled) {
+.datatable-page-btn:hover:not(:disabled) {
     background-color: #f3f4f6;
     border-color: #9ca3af;
 }
 
-.th-page-btn:disabled {
+.datatable-page-btn:disabled {
     opacity: 0.5;
     cursor: not-allowed;
     background-color: #f9fafb;
 }
 
-.th-badge {
+.datatable-badge {
     display: inline-flex;
     align-items: center;
     padding: 2px 8px;
@@ -168,49 +168,49 @@
     text-transform: uppercase;
 }
 
-.th-points {
+.datatable-points {
     font-weight: 600;
     font-family: monospace;
     font-size: 0.95rem;
 }
 
-.th-points.positive {
+.datatable-points.positive {
     color: #059669;
 }
 
-.th-points.negative {
+.datatable-points.negative {
     color: #dc2626;
 }
 
-.th-empty-state {
+.datatable-empty-state {
     text-align: center;
     padding: 48px;
     color: #6b7280;
 }
 
-.th-loading {
+.datatable-loading {
     padding: 48px;
     text-align: center;
     color: #6b7280;
 }
 
-.th-error {
+.datatable-error {
     padding: 24px;
     text-align: center;
     color: #dc2626;
     background-color: #fef2f2;
 }
 
-.th-table tr {
+.datatable-table tr {
     cursor: pointer;
 }
 
-.th-badge-red {
+.datatable-badge-red {
     background-color: #fa7171;
     color: #640000;
 }
 
-.th-badge-green {
+.datatable-badge-green {
     background-color: #d1fae5;
     color: #065f46;
 }

@@ -43,18 +43,20 @@ const ManagerUserPage = () => {
         setSelectedUser(user);
     };
 
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
         fetchUsers();
-        if (selectedUser) {
+        try {
             const token = getToken();
-            fetch(`${backendUrl}/users/${selectedUser.id}`, {
+            const res = await fetch(`${backendUrl}/users/${selectedUser.id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
             })
-                .then(res => res.json())
-                .then(data => setSelectedUser(data))
-                .catch(err => console.error(err));
+            if (res.ok) {
+                setSelectedUser(res.json())
+            }
+        } catch (error) {
+            console.error(error);
         }
     };
 

@@ -26,26 +26,21 @@ const UserList = ({ users, onUserSelect }) => {
             key: 'role',
             label: 'Role',
             render: (row) => (
-                <span className={`th-badge th-badge-${row.role}`}>{row.role}</span>
+                <span className={`datatable-badge datatable-badge-${row.role}`}>{row.role}</span>
             )
-        },
-        {
-            key: 'points',
-            label: 'Points',
-            render: (row) => row.points || 0
         },
         {
             key: 'verified',
             label: 'Verified',
             render: (row) => (
-                row.verified ? <span className="th-badge th-badge-green">Yes</span> : <span className="th-badge th-badge-red">No</span>
+                row.verified ? <span className="datatable-badge datatable-badge-green">Yes</span> : <span className="datatable-badge datatable-badge-red">No</span>
             )
         },
         {
             key: 'suspicious',
             label: 'Suspicious',
             render: (row) => (
-                row.suspicious ? <span className="th-badge th-badge-red">Yes</span> : <span className="th-badge th-badge-green">No</span>
+                row.suspicious ? <span className="datatable-badge datatable-badge-red">Yes</span> : <span className="datatable-badge datatable-badge-green">No</span>
             )
         }
     ];
@@ -63,7 +58,7 @@ const UserList = ({ users, onUserSelect }) => {
         },
         {
             key: 'verified',
-            label: 'Verification Status',
+            label: 'Verification Statuses',
             options: [
                 { value: 'true', label: 'Verified' },
                 { value: 'false', label: 'Unverified' },
@@ -71,6 +66,19 @@ const UserList = ({ users, onUserSelect }) => {
             customFilter: (row, value) => {
                 if (value === 'true') return row.verified === true;
                 if (value === 'false') return !row.verified;
+                return true;
+            }
+        },
+        {
+            key: 'suspicious',
+            label: 'ALl Suspicious Statuses',
+            options: [
+                { value: 'true', label: 'Suspicious' },
+                { value: 'false', label: 'Not Suspicious' },
+            ],
+            customFilter: (row, value) => {
+                if (value === 'true') return row.suspicious === true;
+                if (value === 'false') return !row.suspicious;
                 return true;
             }
         }

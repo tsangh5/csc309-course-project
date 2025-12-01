@@ -97,15 +97,15 @@ const DataTable = ({
     };
 
     return (
-        <div className="th-card">
-            <div className="th-header">
-                <div className="th-header-top">
-                    {title && <h2 className="th-title">{title}</h2>}
+        <div className="datatable-card">
+            <div className="datatable-header">
+                <div className="datatable-header-top">
+                    {title && <h2 className="datatable-title">{title}</h2>}
 
-                    <div className="th-search-container">
+                    <div className="datatable-search-container">
                         <input
                             type="text"
-                            className="th-search-input"
+                            className="datatable-search-input"
                             placeholder="Search..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
@@ -114,11 +114,11 @@ const DataTable = ({
                 </div>
 
                 {filters.length > 0 && (
-                    <div className="th-controls">
+                    <div className="datatable-controls">
                         {filters.map(filter => (
                             <select
                                 key={filter.key}
-                                className="th-select"
+                                className="datatable-select"
                                 value={activeFilters[filter.key]}
                                 onChange={(e) => handleFilterChange(filter.key, e.target.value)}
                             >
@@ -132,8 +132,8 @@ const DataTable = ({
                 )}
             </div>
 
-            <div className="th-content">
-                <table className="th-table">
+            <div className="datatable-content">
+                <table className="datatable-table">
                     <thead>
                         <tr>
                             {columns.map(col => (
@@ -161,17 +161,17 @@ const DataTable = ({
                                 </tr>
                             ))
                         ) : (
-                            <tr><td colSpan={columns.length} className="th-empty-state">No records found.</td></tr>
+                            <tr><td colSpan={columns.length} className="datatable-empty-state">No records found.</td></tr>
                         )}
                     </tbody>
                 </table>
             </div>
 
             {!error && processedData.length > 0 && (
-                <div className="th-pagination">
+                <div className="datatable-pagination">
                     <span>Showing {Math.min((currentPage - 1) * pageSize + 1, processedData.length)} to {Math.min(currentPage * pageSize, processedData.length)} of {processedData.length} entries</span>
-                    <button className="th-page-btn" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>Previous</button>
-                    <button className="th-page-btn" onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>Next</button>
+                    <button className="datatable-page-btn" onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>Previous</button>
+                    <button className="datatable-page-btn" onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>Next</button>
                 </div>
             )}
         </div>
