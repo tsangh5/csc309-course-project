@@ -49,7 +49,7 @@
 }
 
 .btn {
-    padding: 1rem 2rem;
+    padding: 0.75rem 2rem;
     border-radius: 50px;
     font-weight: 600;
     text-decoration: none;
@@ -102,7 +102,10 @@
     gap: 0.5rem;
     font-weight: 600;
     color: #1e293b;
-    animation: float 6s ease-in-out infinite;
+    animation: float-center 6s ease-in-out infinite;
+    /* Ensure initial state is centered */
+    transform: translate(-50%, 0);
+    left: 50%;
 }
 
 .floating-card i {
@@ -112,20 +115,34 @@
 
 .card-1 {
     top: 20%;
-    right: 20%;
+    left: 50%;
     animation-delay: 0s;
 }
 
 .card-2 {
-    top: 50%;
-    right: 10%;
+    top: 55%;
+    left: 25%;
     animation-delay: 2s;
 }
 
 .card-3 {
     top: 60%;
-    right: 35%;
+    left: 75%;
     animation-delay: 4s;
+}
+
+@keyframes float-center {
+    0% {
+        transform: translate(-50%, 0px);
+    }
+
+    50% {
+        transform: translate(-50%, -20px);
+    }
+
+    100% {
+        transform: translate(-50%, 0px);
+    }
 }
 
 @keyframes float {
@@ -188,8 +205,8 @@
 }
 
 .feature-icon i {
-    font-size: 1.75rem;
-    color: #4f46e5;
+    font-size: 2rem;
+    padding-top: 0.4rem;
 }
 
 .feature-card h3 {
@@ -214,6 +231,7 @@
     .hero-content {
         padding-left: 0;
         margin-bottom: 3rem;
+        max-height: 300px;
     }
 
     .hero-title {

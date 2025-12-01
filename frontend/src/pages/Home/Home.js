@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
+import { PiHandCoinsDuotone } from "react-icons/pi";
+import { FaTrophy, FaGifts } from "react-icons/fa";
+
 
 const Home = () => {
     return (
@@ -16,9 +19,6 @@ const Home = () => {
                     <div className="hero-btns">
                         <Link to="/login" className="btn btn-primary">
                             Get Started
-                        </Link>
-                        <Link to="/events" className="btn btn-outline">
-                            Explore Events
                         </Link>
                     </div>
                 </div>
@@ -43,21 +43,21 @@ const Home = () => {
                 <div className="features-grid">
                     <div className="feature-card">
                         <div className="feature-icon">
-                            <i className="fas fa-coins"></i>
+                            <i className="fas fa-coins"><PiHandCoinsDuotone /></i>
                         </div>
                         <h3>Earn Points</h3>
                         <p>Collect points with every purchase and participation.</p>
                     </div>
                     <div className="feature-card">
                         <div className="feature-icon">
-                            <i className="fas fa-ticket-alt"></i>
+                            <i className="fas fa-trophy"><FaTrophy /></i>
                         </div>
                         <h3>Exclusive Events</h3>
                         <p>Get VIP access to members-only events and parties.</p>
                     </div>
                     <div className="feature-card">
                         <div className="feature-icon">
-                            <i className="fas fa-gift"></i>
+                            <i className="fas fa-gift"><FaGifts /></i>
                         </div>
                         <h3>Redeem Rewards</h3>
                         <p>Exchange your points for exciting gifts and vouchers.</p>
