@@ -217,7 +217,7 @@ const EventsPage = () => {
                 {canCreate && (
                     <div className="header-actions">
                         <Link to="/events/new" className="btn-create">
-                            <i className="fas fa-plus"></i> Create Event
+                            Create Event
                         </Link>
                     </div>
                 )}

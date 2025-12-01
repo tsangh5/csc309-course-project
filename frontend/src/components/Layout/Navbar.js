@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import { authHelper } from '../../utils/authHelper';
+import { FaUserCircle } from 'react-icons/fa';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [user, setUser] = useState(authHelper());
+    const dropdownRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -25,7 +28,8 @@ const Navbar = () => {
         localStorage.removeItem('token');
         setUser(null);
         setIsOpen(false);
-        navigate('/login');
+        setIsDropdownOpen(false);
+        navigate('/');
     };
 
     const role = user?.role?.toLowerCase();
@@ -72,10 +76,22 @@ const Navbar = () => {
                                 Promotions
                             </NavLink>
                         </li>
-                        <li className="nav-item" onClick={handleLogout}>
-                            <span className="nav-links">
-                                Logout
-                            </span>
+                        <li className="nav-item user-menu" ref={dropdownRef}>
+                            <div className="user-toggle" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                                <FaUserCircle className="user-icon" />
+                                <span className="user-name">{user.name}</span>
+                            </div>
+                            {isDropdownOpen && (
+                                <div className="user-dropdown">
+                                    <div className="user-info">
+                                        {console.log("user:", user)}
+                                        <p className="user-name-display">{user.utorid}</p>
+                                    </div>
+                                    <button className="logout-btn" onClick={handleLogout}>
+                                        Logout
+                                    </button>
+                                </div>
+                            )}
                         </li>
                     </>
                 ) : (

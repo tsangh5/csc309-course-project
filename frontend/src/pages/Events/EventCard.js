@@ -6,7 +6,7 @@ import { FaPeopleGroup } from "react-icons/fa6";
 
 
 const EventCard = ({ event, onRsvp, onCancelRsvp, isRsvped, canEdit, onDelete }) => {
-    console.log(event);
+    console.log('event: ', event);
     const formatDate = (dateString) => {
         const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
         return new Date(dateString).toLocaleDateString(undefined, options);
@@ -15,7 +15,7 @@ const EventCard = ({ event, onRsvp, onCancelRsvp, isRsvped, canEdit, onDelete })
     return (
         <div className="event-card">
             <div className="event-card-header">
-                <span className="event-points">{event.pointsAwarded || event.pointsRemain || 0} PTS</span>
+                <span className="event-points">{event.points} PTS</span>
                 {event.capacity && (
                     <span className={`event-capacity ${event.numGuests >= event.capacity ? 'full' : ''}`}>
                         {event.numGuests} / {event.capacity}

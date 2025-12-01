@@ -1026,6 +1026,7 @@ app.get('/events', requireClearance('regular'), async (req, res) => {
             pointsRemain: true,
             pointsAwarded: true,
             published: true,
+            points: true,
         }
     });
 
@@ -1058,6 +1059,7 @@ app.get('/events', requireClearance('regular'), async (req, res) => {
             endTime: e.endTime,
             capacity: e.capacity,
             numGuests: countsById[e.id] || 0,
+            points: e.points,
         };
         if (isManager) {
             base.pointsRemain = e.pointsRemain;
@@ -1288,7 +1290,8 @@ app.get('/events/:eventId', requireClearance('regular'), async (req, res) => {
             capacity: true,
             pointsRemain: true,
             pointsAwarded: true,
-            published: true
+            published: true,
+            points: true
         }
     })
     if (!event) {
@@ -1332,7 +1335,8 @@ app.get('/events/:eventId', requireClearance('regular'), async (req, res) => {
         capacity: event.capacity,
         organizers: orgs.map(o => ({ id: o.user.id, utorid: o.user.utorid, name: o.user.name })),
         guests: guests.map(g => ({ id: g.user.id, utorid: g.user.utorid, name: g.user.name })),
-        numGuests: guestCount
+        numGuests: guestCount,
+        points: event.points
     }
 
     const isManager = role === 'manager' || role === 'superuser'
