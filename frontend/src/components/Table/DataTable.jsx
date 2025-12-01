@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import './DataTable.css';
+import '../Details.css';
 
 const DataTable = ({
     title,

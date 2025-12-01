@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './AllTransactionDetails.css';
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 
@@ -99,79 +98,79 @@ const AllTransactionDetails = ({ transaction, onClose, onUpdate }) => {
 
     return (
         <>
-            <div className="tdp-card">
-                <div className="tdp-header" style={{ backgroundColor: headerColor }}>
+            <div className="details-card">
+                <div className="details-header" style={{ backgroundColor: headerColor }}>
                     <div>
-                        <h2 className="tdp-title">{transaction.type}</h2>
-                        <p className="tdp-subtitle">{formatDate(transaction.createdAt)}</p>
+                        <h2 className="details-title">{transaction.type}</h2>
+                        <p className="details-subtitle">{formatDate(transaction.createdAt)}</p>
                     </div>
-                    <button className="tdp-close-btn" onClick={onClose} aria-label="Close details">&times;</button>
+                    <button className="details-close-btn" onClick={onClose} aria-label="Close details">&times;</button>
                 </div>
 
-                <div className="tdp-content">
+                <div className="details-content">
                     {transaction.suspicious && (
-                        <div className="tdp-warning">
+                        <div className="details-warning">
                             <span>⚠️</span> This transaction was flagged as suspicious.
                         </div>
                     )}
 
-                    <div className="tdp-amount-section">
-                        <div className="tdp-amount-label">Impact on Balance</div>
-                        <div className="tdp-amount-value" style={{ color: isPositive ? '#059669' : '#dc2626' }}>
+                    <div className="details-amount-section">
+                        <div className="details-amount-label">Impact on Balance</div>
+                        <div className="details-amount-value" style={{ color: isPositive ? '#059669' : '#dc2626' }}>
                             {isPositive ? '+' : ''}{amount.toLocaleString()} <span style={{ fontSize: '1rem', color: '#6b7280' }}>pts</span>
                         </div>
                     </div>
 
-                    <div className="tdp-details">
-                        <div className="tdp-row">
-                            <span className="tdp-label">Transaction ID</span>
-                            <span className="tdp-value">#{transaction.id}</span>
+                    <div className="details-details">
+                        <div className="details-row">
+                            <span className="details-label">Transaction ID</span>
+                            <span className="details-value">#{transaction.id}</span>
                         </div>
 
-                        <div className="tdp-row">
-                            <span className="tdp-label">User ID</span>
-                            <span className="tdp-value">{transaction.utorid}</span>
+                        <div className="details-row">
+                            <span className="details-label">User ID</span>
+                            <span className="details-value">{transaction.utorid}</span>
                         </div>
 
-                        <div className="tdp-row">
-                            <span className="tdp-label">Created By</span>
-                            <span className="tdp-value">{transaction.createdBy || 'System'}</span>
+                        <div className="details-row">
+                            <span className="details-label">Created By</span>
+                            <span className="details-value">{transaction.createdBy || 'System'}</span>
                         </div>
 
                         {transaction.type === 'purchase' && (
-                            <div className="tdp-row">
-                                <span className="tdp-label">Amount Spent</span>
-                                <span className="tdp-value">${(transaction.spent || 0).toFixed(2)}</span>
+                            <div className="details-row">
+                                <span className="details-label">Amount Spent</span>
+                                <span className="details-value">${(transaction.spent || 0).toFixed(2)}</span>
                             </div>
                         )}
 
-                        <div className="tdp-row">
-                            <span className="tdp-label">Status</span>
-                            <span className="tdp-value">{transaction.suspicious ? 'Suspicious' : 'OK'}</span>
+                        <div className="details-row">
+                            <span className="details-label">Status</span>
+                            <span className="details-value">{transaction.suspicious ? 'Suspicious' : 'OK'}</span>
                         </div>
 
                         {transaction.type === 'transfer' && (
                             <>
-                                <div className="tdp-row">
-                                    <span className="tdp-label">Sender</span>
-                                    <span className="tdp-value">{transaction.sender || 'N/A'}</span>
+                                <div className="details-row">
+                                    <span className="details-label">Sender</span>
+                                    <span className="details-value">{transaction.sender || 'N/A'}</span>
                                 </div>
-                                <div className="tdp-row">
-                                    <span className="tdp-label">Recipient</span>
-                                    <span className="tdp-value">{transaction.recipient || 'N/A'}</span>
+                                <div className="details-row">
+                                    <span className="details-label">Recipient</span>
+                                    <span className="details-value">{transaction.recipient || 'N/A'}</span>
                                 </div>
                             </>
                         )}
 
                         {transaction.type === 'redemption' && (
                             <>
-                                <div className="tdp-row">
-                                    <span className="tdp-label">Status</span>
-                                    <span className="tdp-value">
+                                <div className="details-row">
+                                    <span className="details-label">Status</span>
+                                    <span className="details-value">
                                         {transaction.processed ? (
-                                            <span className="tdp-badge" style={{ backgroundColor: '#dcfce7', color: '#166534' }}>Processed</span>
+                                            <span className="details-badge" style={{ backgroundColor: '#dcfce7', color: '#166534' }}>Processed</span>
                                         ) : (
-                                            <span className="tdp-badge" style={{ backgroundColor: '#fef9c3', color: '#854d0e' }}>Pending</span>
+                                            <span className="details-badge" style={{ backgroundColor: '#fef9c3', color: '#854d0e' }}>Pending</span>
                                         )}
                                     </span>
                                 </div>
@@ -179,18 +178,18 @@ const AllTransactionDetails = ({ transaction, onClose, onUpdate }) => {
                         )}
 
                         {transaction.relatedId && (
-                            <div className="tdp-row">
-                                <span className="tdp-label">Related ID</span>
-                                <span className="tdp-value">{transaction.relatedId}</span>
+                            <div className="details-row">
+                                <span className="details-label">Related ID</span>
+                                <span className="details-value">{transaction.relatedId}</span>
                             </div>
                         )}
 
                         {transaction.promotionIds && transaction.promotionIds.length > 0 && (
-                            <div className="tdp-row">
-                                <span className="tdp-label">Promotions Applied</span>
-                                <span className="tdp-value">
+                            <div className="details-row">
+                                <span className="details-label">Promotions Applied</span>
+                                <span className="details-value">
                                     {transaction.promotionIds.map(id => (
-                                        <span key={id} className="tdp-badge" style={{ marginLeft: '4px', marginBottom: '4px' }}>
+                                        <span key={id} className="details-badge" style={{ marginLeft: '4px', marginBottom: '4px' }}>
                                             #{id}
                                         </span>
                                     ))}
@@ -218,12 +217,12 @@ const AllTransactionDetails = ({ transaction, onClose, onUpdate }) => {
                                         required
                                     />
                                 </div>
-                                <button type="submit" className="btn-primary" disabled={loading}>Create Adjustment</button>
+                                <button type="submit" className="details-btn-primary" disabled={loading}>Create Adjustment</button>
                             </form>
                         </div>
 
                         <button
-                            className={`action-button ${transaction.suspicious ? 'btn-secondary' : 'btn-danger'}`}
+                            className={`action-button ${transaction.suspicious ? 'details-btn-secondary' : 'btn-danger'}`}
                             onClick={handleMarkSuspicious}
                             disabled={loading}
                         >
@@ -234,9 +233,9 @@ const AllTransactionDetails = ({ transaction, onClose, onUpdate }) => {
                     </div>
 
                     {transaction.remark && (
-                        <div className="tdp-remark-box">
-                            <span className="tdp-remark-label">Remark / Note</span>
-                            <p className="tdp-remark-text">"{transaction.remark}"</p>
+                        <div className="details-remark-box">
+                            <span className="details-remark-label">Remark / Note</span>
+                            <p className="details-remark-text">"{transaction.remark}"</p>
                         </div>
                     )}
                 </div>

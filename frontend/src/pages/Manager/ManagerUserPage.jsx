@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import UserList from './ManagerComponents/UserList';
 import UserDetail from './ManagerComponents/UserDetail';
-import './ManagerUserPage.css';
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 
 const ManagerUserPage = () => {
     const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState(null);
+    const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(true);
 
     const getToken = () => localStorage.getItem('token');
@@ -39,11 +39,8 @@ const ManagerUserPage = () => {
     }, []);
 
     const handleUserSelect = (user) => {
+        setEditMode(false);
         setSelectedUser(user);
-    };
-
-    const handleBack = () => {
-        setSelectedUser(null);
     };
 
     const handleUpdate = () => {
@@ -62,23 +59,32 @@ const ManagerUserPage = () => {
     };
 
     return (
-        <div className="manager-user-page">
+        <div className="manager-tables-page">
             <h1>User Management</h1>
             {loading && <p>Loading...</p>}
 
-            {!loading && !selectedUser && (
-                <UserList
-                    users={users}
-                    onUserSelect={handleUserSelect}
-                />
-            )}
+            {!loading && (
+                <div className={`tables-content ${selectedUser ? 'split-view' : 'centered-view'}`}>
 
-            {!loading && selectedUser && (
-                <UserDetail
-                    user={selectedUser}
-                    onBack={handleBack}
-                    onUpdate={handleUpdate}
-                />
+                    <div className="history-pane">
+                        <UserList
+                            users={users}
+                            onUserSelect={handleUserSelect}
+                        />
+                    </div>
+
+                    {selectedUser && (
+                        <div className="details-pane">
+                            <UserDetail
+                                user={selectedUser}
+                                editMode={editMode}
+                                setEditMode={setEditMode}
+                                onClose={() => setSelectedUser(null)}
+                                onUpdate={handleUpdate}
+                            />
+                        </div>
+                    )}
+                </div>
             )}
         </div>
     );

@@ -160,6 +160,7 @@ app.get('/users', requireClearance('manager'), async (req, res) => {
                 createdAt: true,
                 lastLogin: true,
                 verified: true,
+                suspicious: true,
                 avatarUrl: true,
             },
         }),
@@ -670,6 +671,8 @@ app.patch('/users/:userId', requireClearance('manager'), async (req, res) => {
         return res.status(400).json({ error: 'Suspicious user cannot be a cashier' });
     }
 
+    console.log(data);
+
     const updated = await prisma.user.update({
         where: { id },
         data,
@@ -968,7 +971,6 @@ app.post('/events', requireClearance('manager'), async (req, res) => {
 
 app.get('/events', requireClearance('regular'), async (req, res) => {
     const role = (req.auth?.role || '').toLowerCase();
-    const userId = req.auth?.id;
     const isManager = role === 'manager' || role === 'superuser';
 
     let {
@@ -1027,11 +1029,6 @@ app.get('/events', requireClearance('regular'), async (req, res) => {
             pointsRemain: true,
             pointsAwarded: true,
             published: true,
-            points: true,
-            organizers: userId ? {
-                where: { userId: userId },
-                select: { userId: true }
-            } : false
         }
     });
 
@@ -1064,9 +1061,6 @@ app.get('/events', requireClearance('regular'), async (req, res) => {
             endTime: e.endTime,
             capacity: e.capacity,
             numGuests: countsById[e.id] || 0,
-            numGuests: countsById[e.id] || 0,
-            points: e.points,
-            isOrganizer: e.organizers && e.organizers.length > 0
         };
         if (isManager) {
             base.pointsRemain = e.pointsRemain;
@@ -1297,8 +1291,7 @@ app.get('/events/:eventId', requireClearance('regular'), async (req, res) => {
             capacity: true,
             pointsRemain: true,
             pointsAwarded: true,
-            published: true,
-            points: true
+            published: true
         }
     })
     if (!event) {
@@ -1342,8 +1335,7 @@ app.get('/events/:eventId', requireClearance('regular'), async (req, res) => {
         capacity: event.capacity,
         organizers: orgs.map(o => ({ id: o.user.id, utorid: o.user.utorid, name: o.user.name })),
         guests: guests.map(g => ({ id: g.user.id, utorid: g.user.utorid, name: g.user.name })),
-        numGuests: guestCount,
-        points: event.points
+        numGuests: guestCount
     }
 
     const isManager = role === 'manager' || role === 'superuser'
@@ -2507,26 +2499,8 @@ app.use((err, req, res, next) => {
     next(err);
 });
 
-const { exec } = require('child_process');
-
 const server = app.listen(port, () => {
     console.log(`Server running on port ${port}`);
-
-    // Run DB setup asynchronously to prevent startup timeout
-    console.log('Starting DB setup (push & seed)...');
-    const setupCommand = 'npx prisma db push --accept-data-loss && node prisma/seed.js';
-
-    exec(setupCommand, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`DB Setup Error: ${error.message}`);
-            return;
-        }
-        if (stderr) {
-            console.error(`DB Setup Stderr: ${stderr}`);
-        }
-        console.log(`DB Setup Stdout: ${stdout}`);
-        console.log('DB Setup Complete');
-    });
 });
 
 server.on('error', (err) => {

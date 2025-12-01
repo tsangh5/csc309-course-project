@@ -1,0 +1,19 @@
+.th-badge-regular {
+    background-color: #f6d1fa;
+    color: #5f0656;
+}
+
+.th-badge-cashier {
+    background-color: #ffedd5;
+    color: #9a3412;
+}
+
+.th-badge-manager {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.th-badge-superuser {
+    background-color: #f3f4f6;
+    color: #374151;
+}

@@ -1,4 +1,4 @@
-.manager-transaction-page {
+.manager-tables-page {
     padding: 2rem;
     max-width: 1400px;
     margin: 0 auto;
@@ -8,40 +8,39 @@
     align-items: center;
 }
 
-.manager-transaction-page h1 {
+.manager-tables-page h1 {
     text-align: center;
     margin-bottom: 2rem;
     color: #2c3e50;
     width: 100%;
 }
 
-.transaction-content {
+.tables-content {
     display: flex;
     width: 100%;
     gap: 2rem;
     transition: all 0.3s ease;
 }
 
-.transaction-content.centered-view {
+.tables-content.centered-view {
     justify-content: center;
 }
 
-.transaction-content.centered-view .history-pane {
-    width: 100%;
+.tables-content.centered-view .history-pane {
     max-width: 900px;
 }
 
-.transaction-content.split-view {
+.tables-content.split-view {
     justify-content: space-between;
     align-items: flex-start;
 }
 
-.transaction-content.split-view .history-pane {
-    flex: 1;
+.tables-content.split-view .history-pane {
+    flex: 1.75;
     min-width: 0;
 }
 
-.transaction-content.split-view .details-pane {
+.tables-content.split-view .details-pane {
     flex: 1;
     background: white;
     padding: 0;
@@ -53,14 +52,13 @@
 }
 
 @media (max-width: 900px) {
-    .transaction-content.split-view {
+    .tables-content.split-view {
         flex-direction: column;
     }
 
-    .transaction-content.centered-view .history-pane,
-    .transaction-content.split-view .history-pane,
-    .transaction-content.split-view .details-pane {
+    .tables-content.centered-view .history-pane,
+    .tables-content.split-view .history-pane,
+    .tables-content.split-view .details-pane {
         width: 100%;
-        max-width: 100%;
     }
 }

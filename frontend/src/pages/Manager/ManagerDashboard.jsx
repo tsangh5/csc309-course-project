@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { authHelper } from '../../utils/authHelper';
 import './ManagerDashboard.css';
+import './ManagerPages.css'
 
 const ManagerDashboard = () => {
 

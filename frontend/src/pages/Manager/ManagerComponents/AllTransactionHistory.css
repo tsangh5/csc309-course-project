@@ -1,0 +1,24 @@
+.th-badge-purchase {
+    background-color: #f6d1fa;
+    color: #5f0656;
+}
+
+.th-badge-redemption {
+    background-color: #ffedd5;
+    color: #9a3412;
+}
+
+.th-badge-transfer {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.th-badge-adjustment {
+    background-color: #f3f4f6;
+    color: #374151;
+}
+
+.th-badge-event {
+    background-color: #ede9fe;
+    color: #5b21b6;
+}

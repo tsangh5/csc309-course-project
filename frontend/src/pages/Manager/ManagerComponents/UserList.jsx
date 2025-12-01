@@ -1,5 +1,6 @@
 import React from 'react';
 import DataTable from '../../../components/Table/DataTable';
+import './UserList.css';
 
 const UserList = ({ users, onUserSelect }) => {
 
@@ -37,7 +38,14 @@ const UserList = ({ users, onUserSelect }) => {
             key: 'verified',
             label: 'Verified',
             render: (row) => (
-                row.verified ? <span className="th-badge th-badge-verified">Yes</span> : <span className="th-badge th-badge-pending">No</span>
+                row.verified ? <span className="th-badge th-badge-green">Yes</span> : <span className="th-badge th-badge-red">No</span>
+            )
+        },
+        {
+            key: 'suspicious',
+            label: 'Suspicious',
+            render: (row) => (
+                row.suspicious ? <span className="th-badge th-badge-red">Yes</span> : <span className="th-badge th-badge-green">No</span>
             )
         }
     ];
@@ -50,6 +58,7 @@ const UserList = ({ users, onUserSelect }) => {
                 { value: 'regular', label: 'Regular' },
                 { value: 'cashier', label: 'Cashier' },
                 { value: 'manager', label: 'Manager' },
+                { value: 'superuser', label: 'Superuser' }
             ]
         },
         {

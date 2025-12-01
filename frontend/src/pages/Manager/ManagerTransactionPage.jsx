@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AllTransactionHistory from './ManagerComponents/AllTransactionHistory';
 import AllTransactionDetails from './ManagerComponents/AllTransactionDetails';
-import './ManagerTransactionPage.css';
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 
@@ -39,11 +38,8 @@ const ManagerTransactionPage = () => {
     }, []);
 
     const handleTransactionSelect = (transaction) => {
+        setSelectedTransaction(null)
         setSelectedTransaction(transaction);
-    };
-
-    const handleBack = () => {
-        setSelectedTransaction(null);
     };
 
     const handleUpdate = () => {
@@ -62,12 +58,12 @@ const ManagerTransactionPage = () => {
     };
 
     return (
-        <div className="manager-transaction-page">
+        <div className="manager-tables-page">
             <h1>Transaction Management</h1>
             {loading && <p>Loading...</p>}
 
             {!loading && (
-                <div className={`transaction-content ${selectedTransaction ? 'split-view' : 'centered-view'}`}>
+                <div className={`tables-content ${selectedTransaction ? 'split-view' : 'centered-view'}`}>
 
                     <div className="history-pane">
                         <AllTransactionHistory

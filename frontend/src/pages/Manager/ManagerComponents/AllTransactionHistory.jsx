@@ -1,5 +1,6 @@
 import React from 'react';
 import DataTable from '../../../components/Table/DataTable';
+import './AllTransactionHistory.css';
 
 const AllTransactionHistory = ({ transactions, onTransactionSelect }) => {
 
@@ -51,7 +52,7 @@ const AllTransactionHistory = ({ transactions, onTransactionSelect }) => {
             key: 'suspicious',
             label: 'Status',
             render: (row) => (
-                row.suspicious ? <span className="th-badge th-badge-suspicious">Suspicious</span> : <span className="th-badge th-badge-verified">OK</span>
+                row.suspicious ? <span className="th-badge th-badge-red">Suspicious</span> : <span className="th-badge th-badge-green">OK</span>
             )
         }
     ];
