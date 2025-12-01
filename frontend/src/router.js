@@ -14,13 +14,14 @@ import EventPeople from './pages/Events/EventPeople';
 import PromotionsList from './pages/Promotions/PromotionsList';
 import CreatePromotion from './pages/Promotions/CreatePromotion';
 import EditPromotion from './pages/Promotions/EditPromotion';
-import {
-    ManagerDashboard,
-    TransactionsPage,
-} from './pages/Placeholders';
 import CashierDashboard from './pages/Cashier/CashierDashboard';
 import CreateTransaction from './pages/Cashier/CreateTransaction';
 import ProcessRedemption from './pages/Cashier/ProcessRedemption';
+import ManagerDashboard from './pages/Manager/ManagerDashboard';
+import ManagerEventPage from './pages/Manager/ManagerEventPage';
+import ManagerPromotionPage from './pages/Manager/ManagerPromotionPage';
+import ManagerUserPage from './pages/Manager/ManagerUserPage';
+import ManagerTransactionPage from './pages/Manager/ManagerTransactionPage';
 
 const router = createBrowserRouter([
     {
@@ -37,6 +38,10 @@ const router = createBrowserRouter([
             { path: '/cashier/create-transaction', element: <CreateTransaction /> },
             { path: '/cashier/process-redemption/:id?', element: <ProcessRedemption /> },
             { path: '/dashboard/manager', element: <ManagerDashboard /> },
+            { path: '/dashboard/manager/events', element: <ManagerEventPage /> },
+            { path: '/dashboard/manager/promotions', element: <ManagerPromotionPage /> },
+            { path: '/dashboard/manager/users', element: <ManagerUserPage /> },
+            { path: '/dashboard/manager/transactions', element: <ManagerTransactionPage /> },
             { path: '/events', element: <EventsPage /> },
             { path: '/events/new', element: <EventForm /> },
             { path: '/events/:id/people', element: <EventPeople /> },
@@ -45,7 +50,6 @@ const router = createBrowserRouter([
             { path: '/promotions', element: <PromotionsList /> },
             { path: '/promotions/new', element: <CreatePromotion /> },
             { path: '/promotions/:id/edit', element: <EditPromotion /> },
-            { path: '/transactions', element: <TransactionsPage /> },
         ],
     },
 ]);
