@@ -39,7 +39,11 @@ const Login = () => {
                 navigate('/dashboard/');
             }
         } catch (err) {
-            setError(err.message);
+            if (err === "Failed to fetch") {
+                setError("User not found")
+            } else {
+                setError(err.message);
+            }
         } finally {
             setLoading(false);
         }

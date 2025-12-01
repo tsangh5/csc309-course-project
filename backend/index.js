@@ -7,7 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
 const express = require('express');
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET || 'temporary_secret_for_debugging';
 
 const cors = require('cors');
 
@@ -15,14 +15,15 @@ const app = express();
 
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-
+    origin: true, // Allow all origins for debugging
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-
     credentials: true
 }));
+
+app.get('/', (req, res) => {
+    res.status(200).send('Backend is running!');
+});
 
 app.use(
     jwtMiddleware({ secret: JWT_SECRET, algorithms: ['HS256'] })
@@ -37,21 +38,7 @@ app.use(
 
 if (!global.lastResetRequest) global.lastResetRequest = new Map();
 
-const port = (() => {
-    const args = process.argv;
-    if (args.length !== 3) {
-        console.error("usage: node index.js port");
-        process.exit(1);
-    }
-
-    const num = parseInt(args[2], 10);
-    if (isNaN(num)) {
-        console.error("error: argument must be an integer.");
-        process.exit(1);
-    }
-
-    return num;
-})();
+const port = process.env.PORT || 4000;
 
 const prisma = new PrismaClient();
 
@@ -2513,8 +2500,26 @@ app.use((err, req, res, next) => {
     next(err);
 });
 
+const { exec } = require('child_process');
+
 const server = app.listen(port, () => {
     console.log(`Server running on port ${port}`);
+
+    // Run DB setup asynchronously to prevent startup timeout
+    console.log('Starting DB setup (push & seed)...');
+    const setupCommand = 'npx prisma db push --accept-data-loss && node prisma/seed.js';
+    
+    exec(setupCommand, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`DB Setup Error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.error(`DB Setup Stderr: ${stderr}`);
+        }
+        console.log(`DB Setup Stdout: ${stdout}`);
+        console.log('DB Setup Complete');
+    });
 });
 
 server.on('error', (err) => {

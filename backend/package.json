@@ -4,6 +4,7 @@
   "description": "CSSU Reward System",
   "main": "index.js",
   "scripts": {
+    "postinstall": "prisma generate",
     "start": "node index.js",
     "createsuperuser": "node prisma/createsu.js",
     "clean": "rm -rf prisma/dev.db* node_modules package-lock.json prisma/migrations/"
@@ -21,9 +22,9 @@
     "multer": "^1.4.5-lts.1",
     "sqlite3": "^5.1.7",
     "uuid": "^11.1.0",
-    "zod": "^3.24.2"
+    "zod": "^3.24.2",
+    "prisma": "^6.18.0"
   },
   "devDependencies": {
-    "prisma": "^6.18.0"
   }
 }
