@@ -14,14 +14,12 @@ const EventPeople = () => {
     const [error, setError] = useState(null);
 
     const [utoridToAdd, setUtoridToAdd] = useState('');
-    const [pointsToAward, setPointsToAward] = useState('');
     const [actionError, setActionError] = useState(null);
     const [actionSuccess, setActionSuccess] = useState(null);
 
     const [user] = useState(authHelper());
     const isManager = user && (user.role === 'manager' || user.role === 'superuser');
     const isOrganizer = user && event && event.organizers.some(o => o.id === user.id);
-    const canManagePeople = isManager || isOrganizer;
 
     const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 

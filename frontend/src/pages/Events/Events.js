@@ -3,6 +3,17 @@ import { Link } from 'react-router-dom';
 import EventCard from './EventCard';
 import './Events.css';
 
+const getHeaders = () => {
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+    const token = localStorage.getItem('token');
+    if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+    }
+    return headers;
+};
+
 const EventsPage = () => {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -12,21 +23,10 @@ const EventsPage = () => {
     const [userRsvps, setUserRsvps] = useState(new Set());
     const [user, setUser] = useState(null);
     const [organizedEventsList, setOrganizedEventsList] = useState([]);
-    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [token] = useState(localStorage.getItem('token'));
 
     const LIMIT = 9;
     const BASE_URL = process.env.REACT_APP_BACKEND_URL;
-
-    const getHeaders = () => {
-        const headers = {
-            'Content-Type': 'application/json',
-        };
-        const token = localStorage.getItem('token');
-        if (token) {
-            headers['Authorization'] = `Bearer ${token}`;
-        }
-        return headers;
-    };
 
     const fetchEvents = async () => {
         try {
@@ -66,26 +66,6 @@ const EventsPage = () => {
         }
     };
 
-    const fetchEvent = async (eventId) => {
-        try {
-            const response = await fetch(`${BASE_URL}/events/${eventId}`, {
-                method: 'GET',
-                headers: getHeaders(),
-            });
-
-            if (!response.ok) {
-                const errData = await response.json().catch(() => ({}));
-                throw new Error(errData.error || `Request failed with status ${response.status}`);
-            }
-
-            const data = await response.json();
-            return data;
-        } catch (err) {
-            setError('Failed to load event. Please try again later.');
-            console.error(err);
-        }
-    };
-
     useEffect(() => {
         fetchEvents();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -111,33 +91,53 @@ const EventsPage = () => {
         }
     };
 
-    const fetchUser = async () => {
-        try {
-            const baseUrl = process.env.REACT_APP_BACKEND_URL;
-            const response = await fetch(`${baseUrl}/users/me`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch user data');
-            }
-
-            const data = await response.json();
-            setUser(data);
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
     useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const baseUrl = process.env.REACT_APP_BACKEND_URL;
+                const response = await fetch(`${baseUrl}/users/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data');
+                }
+
+                const data = await response.json();
+                setUser(data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
+
         if (token) {
             fetchUser();
         }
     }, [token]);
 
     useEffect(() => {
+        const fetchEvent = async (eventId) => {
+            try {
+                const response = await fetch(`${BASE_URL}/events/${eventId}`, {
+                    method: 'GET',
+                    headers: getHeaders(),
+                });
+
+                if (!response.ok) {
+                    const errData = await response.json().catch(() => ({}));
+                    throw new Error(errData.error || `Request failed with status ${response.status}`);
+                }
+
+                const data = await response.json();
+                return data;
+            } catch (err) {
+                setError('Failed to load event. Please try again later.');
+                console.error(err);
+            }
+        };
+
         const loadOrganizedEvents = async () => {
             if (user && user.organizedEvents && user.organizedEvents.length > 0) {
                 const promises = user.organizedEvents.map(oe => fetchEvent(oe.eventId));
@@ -148,7 +148,7 @@ const EventsPage = () => {
             }
         };
         loadOrganizedEvents();
-    }, [user]);
+    }, [user, BASE_URL]);
 
     const handleCancelRsvp = async (eventId) => {
         try {

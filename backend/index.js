@@ -7,7 +7,7 @@ const { v4: uuidv4 } = require('uuid');
 require('dotenv').config();
 
 const express = require('express');
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.JWT_SECRET || 'temporary_secret_for_debugging';
 
 const cors = require('cors');
 
@@ -15,14 +15,15 @@ const app = express();
 
 
 app.use(cors({
-    origin: 'http://localhost:3000',
-
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-
+    origin: true, // Allow all origins for debugging
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-
     credentials: true
 }));
+
+app.get('/', (req, res) => {
+    res.status(200).send('Backend is running!');
+});
 
 app.use(
     jwtMiddleware({ secret: JWT_SECRET, algorithms: ['HS256'] })
@@ -37,22 +38,7 @@ app.use(
 
 if (!global.lastResetRequest) global.lastResetRequest = new Map();
 
-const port = (() => {
-    const args = process.argv;
-    return 4000
-    if (args.length !== 3) {
-        console.error("usage: node index.js port");
-        process.exit(1);
-    }
-
-    const num = parseInt(args[2], 10);
-    if (isNaN(num)) {
-        console.error("error: argument must be an integer.");
-        process.exit(1);
-    }
-
-    return num;
-})();
+const port = process.env.PORT || 4000;
 
 const prisma = new PrismaClient();
 
