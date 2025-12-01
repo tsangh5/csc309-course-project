@@ -968,6 +968,7 @@ app.post('/events', requireClearance('manager'), async (req, res) => {
 
 app.get('/events', requireClearance('regular'), async (req, res) => {
     const role = (req.auth?.role || '').toLowerCase();
+    const userId = req.auth?.id;
     const isManager = role === 'manager' || role === 'superuser';
 
     let {
@@ -1027,6 +1028,10 @@ app.get('/events', requireClearance('regular'), async (req, res) => {
             pointsAwarded: true,
             published: true,
             points: true,
+            organizers: userId ? {
+                where: { userId: userId },
+                select: { userId: true }
+            } : false
         }
     });
 
@@ -1059,7 +1064,9 @@ app.get('/events', requireClearance('regular'), async (req, res) => {
             endTime: e.endTime,
             capacity: e.capacity,
             numGuests: countsById[e.id] || 0,
+            numGuests: countsById[e.id] || 0,
             points: e.points,
+            isOrganizer: e.organizers && e.organizers.length > 0
         };
         if (isManager) {
             base.pointsRemain = e.pointsRemain;
@@ -2508,7 +2515,7 @@ const server = app.listen(port, () => {
     // Run DB setup asynchronously to prevent startup timeout
     console.log('Starting DB setup (push & seed)...');
     const setupCommand = 'npx prisma db push --accept-data-loss && node prisma/seed.js';
-    
+
     exec(setupCommand, (error, stdout, stderr) => {
         if (error) {
             console.error(`DB Setup Error: ${error.message}`);
