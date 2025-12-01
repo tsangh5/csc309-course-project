@@ -27,6 +27,8 @@
     gap: 1rem;
     list-style: none;
     text-align: center;
+    margin-left: auto;
+    margin-right: 1rem;
 }
 
 .nav-item {
@@ -52,6 +54,12 @@
 
 .menu-icon {
     display: none;
+}
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 @media screen and (max-width: 960px) {
@@ -122,6 +130,12 @@
         color: #fff;
     }
 
+    .navbar-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
     .hamburger {
         width: 30px;
         height: 3px;
@@ -146,5 +160,102 @@
 
     .hamburger::after {
         top: 10px;
+    }
+}
+
+/* User Menu Styles */
+.user-menu {
+    position: relative;
+}
+
+.user-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    transition: opacity 0.2s;
+}
+
+.user-toggle:hover {
+    opacity: 0.8;
+}
+
+.user-icon {
+    font-size: 1.5rem;
+}
+
+.user-name {
+    font-weight: 500;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #242222;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    min-width: 200px;
+    padding: 0.5rem;
+    z-index: 1000;
+    margin-top: 0.5rem;
+    border: 1px solid #333;
+}
+
+.user-info {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #333;
+    margin-bottom: 0.5rem;
+}
+
+.user-name-display {
+    color: #fff;
+    font-weight: 600;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.logout-btn {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: transparent;
+    border: none;
+    color: #ff4d4d;
+    text-align: left;
+    cursor: pointer;
+    font-size: 0.95rem;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+    background-color: rgba(255, 77, 77, 0.1);
+}
+
+@media screen and (max-width: 960px) {
+    .user-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: auto;
+        min-width: 200px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        border: 1px solid #333;
+        background: #242222;
+        margin-top: 0.5rem;
+        padding: 0.5rem;
+    }
+
+    .user-info {
+        padding: 1rem;
+        text-align: center;
+        border-bottom: 1px solid #333;
+    }
+
+    .logout-btn {
+        text-align: left;
+        padding: 0.75rem 1rem;
     }
 }

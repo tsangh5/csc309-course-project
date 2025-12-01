@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import './Events.css';
 import { FaPencilAlt, FaRegTrashAlt } from "react-icons/fa";
 import { FaPeopleGroup } from "react-icons/fa6";
+import { MdOutlineEditCalendar } from "react-icons/md";
 
 
 const EventCard = ({ event, onRsvp, onCancelRsvp, isRsvped, canEdit, onDelete }) => {
-    console.log(event);
+    console.log('event: ', event);
     const formatDate = (dateString) => {
         const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
         return new Date(dateString).toLocaleDateString(undefined, options);
@@ -15,7 +16,13 @@ const EventCard = ({ event, onRsvp, onCancelRsvp, isRsvped, canEdit, onDelete })
     return (
         <div className="event-card">
             <div className="event-card-header">
-                <span className="event-points">{event.pointsAwarded || event.pointsRemain || 0} PTS</span>
+                <span className="event-points">{event.points} PTS</span>
+                {event.isOrganizer && (
+                    <span className="event-organizer-icon">
+                        <MdOutlineEditCalendar />
+                        <span className="hover-text">You are an organizer!</span>
+                    </span>
+                )}
                 {event.capacity && (
                     <span className={`event-capacity ${event.numGuests >= event.capacity ? 'full' : ''}`}>
                         {event.numGuests} / {event.capacity}
@@ -27,10 +34,10 @@ const EventCard = ({ event, onRsvp, onCancelRsvp, isRsvped, canEdit, onDelete })
                     <h3 className="event-title">{event.name}</h3>
                 </Link>
                 <p className="event-location">
-                    <i className="fas fa-map-marker-alt"></i> {event.location}
+                    {event.location}
                 </p>
                 <p className="event-time">
-                    <i className="fas fa-clock"></i> {formatDate(event.startTime)} - {formatDate(event.endTime)}
+                    {formatDate(event.startTime)} - {formatDate(event.endTime)}
                 </p>
                 <p className="event-description">{event.description}</p>
             </div>

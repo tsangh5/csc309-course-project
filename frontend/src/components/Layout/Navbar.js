@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import './Navbar.css';
 import { authHelper } from '../../utils/authHelper';
+import { FaUserCircle } from 'react-icons/fa';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [user, setUser] = useState(authHelper());
+    const dropdownRef = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -25,7 +28,8 @@ const Navbar = () => {
         localStorage.removeItem('token');
         setUser(null);
         setIsOpen(false);
-        navigate('/login');
+        setIsDropdownOpen(false);
+        navigate('/');
     };
 
     const role = user?.role?.toLowerCase();
@@ -40,12 +44,6 @@ const Navbar = () => {
             <Link to="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
                 LoyaltyApp
             </Link>
-            {isLoggedIn && (
-                <div className="menu-icon" onClick={toggleMenu}>
-                    <span className="hamburger"></span>
-                </div>
-            )}
-
             <ul className={menuClass}>
                 {isLoggedIn ? (
                     <>
@@ -72,11 +70,6 @@ const Navbar = () => {
                                 Promotions
                             </NavLink>
                         </li>
-                        <li className="nav-item" onClick={handleLogout}>
-                            <span className="nav-links">
-                                Logout
-                            </span>
-                        </li>
                     </>
                 ) : (
                     <li className="nav-item">
@@ -86,6 +79,30 @@ const Navbar = () => {
                     </li>
                 )}
             </ul >
+            {isLoggedIn && (
+                <div className="navbar-actions">
+                    <div className="user-menu" ref={dropdownRef}>
+                        <div className="user-toggle" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                            <FaUserCircle className="user-icon" />
+                            <span className="user-name">{user.utorid}</span>
+                        </div>
+                        {isDropdownOpen && (
+                            <div className="user-dropdown">
+                                <div className="user-info">
+                                    {console.log("user:", user)}
+                                    <p className="user-name-display">{user.role}</p>
+                                </div>
+                                <button className="logout-btn" onClick={handleLogout}>
+                                    Logout
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                    <div className="menu-icon" onClick={toggleMenu}>
+                        <span className="hamburger"></span>
+                    </div>
+                </div>
+            )}
         </nav >
     );
 };
