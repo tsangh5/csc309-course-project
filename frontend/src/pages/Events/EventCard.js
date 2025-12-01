@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import './Events.css';
 import { FaPencilAlt, FaRegTrashAlt } from "react-icons/fa";
 import { FaPeopleGroup } from "react-icons/fa6";
+import { MdOutlineEditCalendar } from "react-icons/md";
 
 
 const EventCard = ({ event, onRsvp, onCancelRsvp, isRsvped, canEdit, onDelete }) => {
@@ -16,6 +17,12 @@ const EventCard = ({ event, onRsvp, onCancelRsvp, isRsvped, canEdit, onDelete })
         <div className="event-card">
             <div className="event-card-header">
                 <span className="event-points">{event.points} PTS</span>
+                {event.isOrganizer && (
+                    <span className="event-organizer-icon">
+                        <MdOutlineEditCalendar />
+                        <span className="hover-text">You are an organizer!</span>
+                    </span>
+                )}
                 {event.capacity && (
                     <span className={`event-capacity ${event.numGuests >= event.capacity ? 'full' : ''}`}>
                         {event.numGuests} / {event.capacity}
@@ -27,10 +34,10 @@ const EventCard = ({ event, onRsvp, onCancelRsvp, isRsvped, canEdit, onDelete })
                     <h3 className="event-title">{event.name}</h3>
                 </Link>
                 <p className="event-location">
-                    <i className="fas fa-map-marker-alt"></i> {event.location}
+                    {event.location}
                 </p>
                 <p className="event-time">
-                    <i className="fas fa-clock"></i> {formatDate(event.startTime)} - {formatDate(event.endTime)}
+                    {formatDate(event.startTime)} - {formatDate(event.endTime)}
                 </p>
                 <p className="event-description">{event.description}</p>
             </div>
