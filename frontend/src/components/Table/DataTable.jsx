@@ -10,7 +10,8 @@ const DataTable = ({
     searchKeys = [],
     pageSize = 10,
     onRowClick,
-    error
+    error,
+    actions
 }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'desc' });
@@ -113,7 +114,7 @@ const DataTable = ({
                     </div>
                 </div>
 
-                {filters.length > 0 && (
+                <div className="datatable-header-bottom">
                     <div className="datatable-controls">
                         {filters.map(filter => (
                             <select
@@ -129,7 +130,12 @@ const DataTable = ({
                             </select>
                         ))}
                     </div>
-                )}
+                    {actions && (
+                        <div className="datatable-actions">
+                            {actions}
+                        </div>
+                    )}
+                </div>
             </div>
 
             <div className="datatable-content">

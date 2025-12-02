@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import UserList from './ManagerComponents/UserList';
 import UserDetail from './ManagerComponents/UserDetail';
+import RegisterUserForm from '../../components/Forms/RegisterUserForm';
+import './ManagerPages.css';
 
 const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 
@@ -9,6 +11,9 @@ const ManagerUserPage = () => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [editMode, setEditMode] = useState(false);
     const [loading, setLoading] = useState(true);
+
+    const [showRegisterModal, setShowRegisterModal] = useState(false);
+    const [activationData, setActivationData] = useState(null);
 
     const getToken = () => localStorage.getItem('token');
 
@@ -45,24 +50,67 @@ const ManagerUserPage = () => {
 
     const handleUpdate = async () => {
         fetchUsers();
-        try {
-            const token = getToken();
-            const res = await fetch(`${backendUrl}/users/${selectedUser.id}`, {
-                headers: {
-                    'Authorization': `Bearer ${token}`
+        if (selectedUser) {
+            try {
+                const token = getToken();
+                const res = await fetch(`${backendUrl}/users/${selectedUser.id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                if (res.ok) {
+                    const updatedData = await res.json();
+                    setSelectedUser(updatedData);
                 }
-            })
-            if (res.ok) {
-                setSelectedUser(res.json())
+            } catch (error) {
+                console.error(error);
             }
-        } catch (error) {
-            console.error(error);
+        }
+    };
+
+    const handleRegisterSuccess = (data) => {
+        setShowRegisterModal(false);
+        fetchUsers();
+
+        if (data.resetToken) {
+            setActivationData({
+                token: data.resetToken,
+                link: `${window.location.origin}/activate?token=${data.resetToken}&utorid=${data.utorid}`,
+                utorid: data.utorid
+            });
         }
     };
 
     return (
         <div className="manager-tables-page">
-            <h1>User Management</h1>
+            <div className="page-header">
+                <h1>User Management</h1>
+            </div>
+
+            {activationData && (
+                <div className="alert-box success" style={{ marginBottom: '20px', padding: '15px', border: '1px solid green', borderRadius: '5px', backgroundColor: '#e6fffa' }}>
+                    <h3>User Created: {activationData.utorid}</h3>
+                    <p><strong>Action Required:</strong> Since emails are disabled, copy this link to set the password:</p>
+                    <div style={{ display: 'flex', gap: '10px', marginTop: '10px' }}>
+                        <input
+                            type="text"
+                            readOnly
+                            value={activationData.link}
+                            style={{ flex: 1, padding: '5px' }}
+                        />
+                        <button onClick={() => {
+                            navigator.clipboard.writeText(activationData.link);
+                            alert('Copied to clipboard!');
+                        }}>
+                            Copy
+                        </button>
+                        <button onClick={() => setActivationData(null)} style={{ background: 'none', border: 'none', color: '#666', cursor: 'pointer' }}>
+                            Dismiss
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {loading && <p>Loading...</p>}
 
             {!loading && (
@@ -72,6 +120,11 @@ const ManagerUserPage = () => {
                         <UserList
                             users={users}
                             onUserSelect={handleUserSelect}
+                            actions={
+                                <button className="btn-simplistic" onClick={() => setShowRegisterModal(true)}>
+                                    + Register User
+                                </button>
+                            }
                         />
                     </div>
 
@@ -86,6 +139,17 @@ const ManagerUserPage = () => {
                             />
                         </div>
                     )}
+                </div>
+            )}
+
+            {showRegisterModal && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <RegisterUserForm
+                            onSuccess={handleRegisterSuccess}
+                            onCancel={() => setShowRegisterModal(false)}
+                        />
+                    </div>
                 </div>
             )}
         </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import DataTable from '../../../components/Table/DataTable';
 import './UserList.css';
 
-const UserList = ({ users, onUserSelect }) => {
+const UserList = ({ users, onUserSelect, actions }) => {
 
     const columns = [
         {
@@ -96,6 +96,7 @@ const UserList = ({ users, onUserSelect }) => {
                 searchKeys={searchKeys}
                 pageSize={10}
                 onRowClick={onUserSelect}
+                actions={actions}
             />
         </div>
     );

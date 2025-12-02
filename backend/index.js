@@ -870,7 +870,7 @@ app.post('/auth/resets/:resetToken', async (req, res) => {
 
     const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*]).{8,20}$/;
     if (!passRegex.test(password))
-        return res.status(400).json({ error: 'Password does not meet complexity requirements' });
+        return res.status(400).json({ error: 'Password must have: at least 1 uppercase letter, 1 lowercase letter, 1 number, 1 special character, and be between 8 and 20 characters long' });
 
     const user = await prisma.user.findFirst({
         where: { resetToken },

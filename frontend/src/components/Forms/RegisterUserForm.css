@@ -1,0 +1,94 @@
+.register-user-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.register-user-form h2 {
+    margin-bottom: 1.5rem;
+    color: #1e293b;
+    text-align: center;
+}
+
+.register-user-form .form-group {
+    margin-bottom: 1.25rem;
+}
+
+.register-user-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #475569;
+}
+
+.register-user-form input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.register-user-form input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.register-user-form .error-message {
+    background-color: #fef2f2;
+    color: #ef4444;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    border: 1px solid #fecaca;
+}
+
+.register-user-form .form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.register-user-form .btn-submit,
+.register-user-form .btn-cancel {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1rem;
+}
+
+.register-user-form .btn-submit {
+    background: #4f46e5;
+    color: white;
+    border: none;
+}
+
+.register-user-form .btn-submit:hover:not(:disabled) {
+    background: #4338ca;
+}
+
+.register-user-form .btn-submit:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+.register-user-form .btn-cancel {
+    background: white;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+}
+
+.register-user-form .btn-cancel:hover:not(:disabled) {
+    background: #f8fafc;
+    color: #1e293b;
+}
