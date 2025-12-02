@@ -67,7 +67,6 @@ const ManagerEventPage = () => {
             console.error(error);
         }
     };
-
     /*
     const handleCreateEvent = async (e) => {
         e.preventDefault();
@@ -107,7 +106,6 @@ const ManagerEventPage = () => {
                             onEventSelect={handleEventSelect}
                         />
                     </div>
-
                     {selectedEvent && (
                         <div className="details-pane">
                             <EventDetails
