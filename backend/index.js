@@ -16,7 +16,7 @@ const app = express();
 console.log(`JWT Secret: ${process.env.JWT_SECRET}`);
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Allow all origins for debugging
+    origin: '*', // Allow all origins for debugging
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
