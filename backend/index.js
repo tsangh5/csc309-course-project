@@ -780,6 +780,11 @@ app.post('/users/:userId/transactions', requireClearance('regular'), async (req,
     });
 });
 
+app.use((req, res, next) => {
+    // This logs the method and path of every request hitting your server
+    console.log(`INCOMING REQUEST: ${req.method} ${req.originalUrl}`);
+    next();
+});
 
 app.post('/auth/tokens', async (req, res) => {
     const { utorid, password } = req.body;
