@@ -82,12 +82,25 @@ const User = () => {
             <h2 className="user-dashboard-title">User Dashboard</h2>
             {user && (
                 <>
-                    <AvailablePoints points={user.points} />
-                    <QRCode data={user.utorid} label="Scan to Show Information" description="Show this code to the cashier" />
-                    <Transfer token={token} />
-                    <Redemption token={token} />
-                    <TransactionHistory transactions={transactions} currentUtorid={user.utorid} onTransactionSelect={setSelectedTransaction} />
-                    <TransactionDetailPanel transaction={selectedTransaction} onClose={() => setSelectedTransaction(null)} />
+                    <AvailablePoints className="available-points" points={user.points} />
+                    <QRCode className="qr-code" data={user.utorid} label="Scan to Show Information" description="Show this code to the cashier" />
+                    <Transfer className="transfer" token={token} />
+                    <Redemption className="redemption" token={token} />
+                    <div className={`transaction-area-wrapper ${selectedTransaction ? 'split-active' : 'full-active'}`}>
+                        <TransactionHistory
+                            className="transaction-history"
+                            transactions={transactions}
+                            currentUtorid={user.utorid}
+                            onTransactionSelect={setSelectedTransaction}
+                        />
+                        {selectedTransaction && (
+                            <TransactionDetailPanel
+                                className="transaction-detail-panel"
+                                transaction={selectedTransaction}
+                                onClose={() => setSelectedTransaction(null)}
+                            />
+                        )}
+                    </div>
                 </>
             )}
         </div>

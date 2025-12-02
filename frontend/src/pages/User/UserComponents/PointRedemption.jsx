@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './PointRedemption.css';
 
-const PointRedemption = ({ token }) => {
+const PointRedemption = ({ token, className }) => {
     const [amount, setAmount] = useState('');
     const [remark, setRemark] = useState('');
     const [status, setStatus] = useState({ type: '', message: '' });
@@ -52,7 +52,7 @@ const PointRedemption = ({ token }) => {
     };
 
     return (
-        <div className="pr-container">
+        <div className={`pr-container ${className || ''}`}>
             <h2 className="pr-header">Redeem Points</h2>
 
             {status.message && (

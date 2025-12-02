@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Transfer.css';
 
-const PointTransfer = ({ token }) => {
+const PointTransfer = ({ token, className }) => {
     const [recipientId, setRecipientId] = useState('');
     const [amount, setAmount] = useState('');
     const [remark, setRemark] = useState('');
@@ -57,7 +57,7 @@ const PointTransfer = ({ token }) => {
     };
 
     return (
-        <div className="pt-container">
+        <div className={`pt-container ${className || ''}`}>
             <h2 className="pt-header">Transfer Points</h2>
 
             {status.message && (

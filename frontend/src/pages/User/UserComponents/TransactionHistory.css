@@ -1,0 +1,9 @@
+.transaction-history-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.transaction-history-container .datatable-card {
+    width: 100%;
+}
