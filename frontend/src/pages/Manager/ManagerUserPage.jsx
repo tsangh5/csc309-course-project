@@ -62,6 +62,8 @@ const ManagerUserPage = () => {
                 const updatedUser = await response.json();
                 setSelectedUser(updatedUser);
             }
+        } catch (error) {
+            console.error(error);
         }
     };
 
