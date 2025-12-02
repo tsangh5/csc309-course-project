@@ -48,13 +48,13 @@ const ManagerUserPage = () => {
         fetchUsers();
         try {
             const token = getToken();
-            const res = await fetch(`${backendUrl}/users/${selectedUser.id}`, {
+            const response = await fetch(`${backendUrl}/users/${selectedUser.id}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
-            })
-            if (res.ok) {
-                const updatedUser = await res.json();
+            });
+            if (response.ok) {
+                const updatedUser = await response.json();
                 setSelectedUser(updatedUser);
             }
         } catch (error) {
