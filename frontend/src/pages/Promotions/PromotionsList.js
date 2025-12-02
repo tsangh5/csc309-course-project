@@ -21,7 +21,7 @@ const PromotionsList = () => {
         order: 'asc'
     });
 
-    const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
 
     useEffect(() => {
         const decoded = authHelper();

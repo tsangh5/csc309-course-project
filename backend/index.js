@@ -17,7 +17,7 @@ const app = express();
 console.log(`JWT Secret: ${process.env.JWT_SECRET}`);
 
 app.use(cors({
-    origin: FRONTEND_URL,
+    origin: true, // Allow all origins for now to fix connection issues
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true

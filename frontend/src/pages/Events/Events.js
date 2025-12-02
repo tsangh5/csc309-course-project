@@ -34,7 +34,7 @@ const EventsPage = () => {
     });
 
     const LIMIT = 9;
-    const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
 
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
@@ -95,8 +95,7 @@ const EventsPage = () => {
 
     const fetchUser = useCallback(async () => {
         try {
-            const baseUrl = process.env.REACT_APP_BACKEND_URL;
-            const response = await fetch(`${baseUrl}/users/me`, {
+            const response = await fetch(`${BASE_URL}/users/me`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

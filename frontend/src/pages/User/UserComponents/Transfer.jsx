@@ -13,7 +13,7 @@ const PointTransfer = ({ token, className }) => {
         setStatus({ type: '', message: '' });
         setIsLoading(true);
 
-        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
 
         try {
             const userIdNum = parseInt(recipientId, 10);

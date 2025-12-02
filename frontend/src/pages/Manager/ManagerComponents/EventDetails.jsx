@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './EventDetails.css';
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
 
 const EventDetails = ({ event, onClose, onUpdate }) => {
     const [loading, setLoading] = useState(false);

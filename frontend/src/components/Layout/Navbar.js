@@ -89,7 +89,6 @@ const Navbar = () => {
                         {isDropdownOpen && (
                             <div className="user-dropdown">
                                 <div className="user-info">
-                                    {console.log("user:", user)}
                                     <p className="user-name-display">{user.role}</p>
                                 </div>
                                 <button className="logout-btn" onClick={handleLogout}>

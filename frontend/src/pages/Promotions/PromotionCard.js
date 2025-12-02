@@ -57,9 +57,11 @@ const PromotionCard = ({ promotion, canEdit, onDelete }) => {
                 </div>
 
                 <div className="promotion-time-info">
-                    <p className="promo-time">
-                        <strong>Starts:</strong> {formatDate(promotion.startTime)}
-                    </p>
+                    {promotion.startTime && (
+                        <p className="promo-time">
+                            <strong>Starts:</strong> {formatDate(promotion.startTime)}
+                        </p>
+                    )}
                     <p className="promo-time">
                         <strong>Ends:</strong> {formatDate(promotion.endTime)}
                     </p>

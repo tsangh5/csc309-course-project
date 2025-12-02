@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UserList from './ManagerComponents/UserList';
 import UserDetail from './ManagerComponents/UserDetail';
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
 
 const ManagerUserPage = () => {
     const [users, setUsers] = useState([]);
