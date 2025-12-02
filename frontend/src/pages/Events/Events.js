@@ -106,6 +106,7 @@ const EventsPage = () => {
         if (token) {
             fetchUser();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [token]);
 
     useEffect(() => {

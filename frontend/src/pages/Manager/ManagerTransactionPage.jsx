@@ -35,6 +35,7 @@ const ManagerTransactionPage = () => {
 
     useEffect(() => {
         fetchTransactions();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleTransactionSelect = (transaction) => {

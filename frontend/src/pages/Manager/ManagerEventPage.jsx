@@ -44,6 +44,7 @@ const ManagerEventPage = () => {
 
     useEffect(() => {
         fetchEvents();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleEventSelect = (event) => {
@@ -67,6 +68,7 @@ const ManagerEventPage = () => {
         }
     };
 
+    /*
     const handleCreateEvent = async (e) => {
         e.preventDefault();
         try {
@@ -76,21 +78,7 @@ const ManagerEventPage = () => {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(newEventData)
-            });
-
-            if (!response.ok) throw new Error('Failed to create event');
-
-            alert("Event created successfully!");
-            setNewEventData({ name: '', location: '', startTime: '', capacity: '', points: 0 });
-            fetchEvents();
-        } catch (error) {
-            console.error(error);
-            alert("Failed to create event.");
-        }
-    };
-
+                }
     return (
         <div className="manager-tables-page">
             <h1>Transaction Management</h1>
