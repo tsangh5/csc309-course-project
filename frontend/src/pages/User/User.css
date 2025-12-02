@@ -45,8 +45,8 @@
 }
 
 .transaction-area-wrapper.full-active .transaction-history {
-    justify-self: center;
-    min-width: 100%;
+    width: 100%;
+    flex: 1;
 }
 
 .transaction-area-wrapper.split-active {
