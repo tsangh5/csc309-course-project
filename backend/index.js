@@ -22,6 +22,8 @@ app.use(cors({
     credentials: true
 }));
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
     res.status(200).send('Backend is running!');
 });
@@ -43,8 +45,6 @@ if (!global.lastResetRequest) global.lastResetRequest = new Map();
 
 const port = process.env.PORT || 8080;
 const prisma = new PrismaClient();
-
-app.use(express.json());
 
 function requireClearance(minRole) {
     const levels = { regular: 1, cashier: 2, manager: 3, superuser: 4 };
