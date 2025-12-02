@@ -1,6 +1,7 @@
 import DataTable from '../../../components/Table/DataTable';
+import './TransactionHistory.css';
 
-const TransactionHistory = ({ transactions, onTransactionSelect }) => {
+const TransactionHistory = ({ transactions, onTransactionSelect, className }) => {
 
     const columns = [
         {
@@ -69,15 +70,17 @@ const TransactionHistory = ({ transactions, onTransactionSelect }) => {
     const searchKeys = ['id', 'type', 'remark', 'userid'];
 
     return (
-        <DataTable
-            title="Transaction History"
-            data={transactions}
-            columns={columns}
-            filters={filters}
-            searchKeys={searchKeys}
-            pageSize={10}
-            onRowClick={onTransactionSelect}
-        />
+        <div className={`transaction-history-container ${className || ''}`}>
+            <DataTable
+                title="Transaction History"
+                data={transactions}
+                columns={columns}
+                filters={filters}
+                searchKeys={searchKeys}
+                pageSize={10}
+                onRowClick={onTransactionSelect}
+            />
+        </div>
     );
 };
 

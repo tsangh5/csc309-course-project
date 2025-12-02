@@ -2,7 +2,7 @@ import React from 'react';
 import QRCode from './QRCode';
 
 
-const TransactionDetailPanel = ({ transaction, onClose }) => {
+const TransactionDetailPanel = ({ transaction, onClose, className }) => {
     if (!transaction) return null;
 
     const frontendURL = process.env.REACT_APP_FRONTEND_URL || 'http://localhost:3000';
@@ -36,7 +36,7 @@ const TransactionDetailPanel = ({ transaction, onClose }) => {
 
     return (
         <>
-            <div className="details-card">
+            <div className={`details-card ${className || ''}`}>
                 <div className="details-header" style={{ backgroundColor: headerColor }}>
                     <div>
                         <h2 className="details-title">{transaction.type}</h2>

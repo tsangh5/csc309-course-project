@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import EventCard from './EventCard';
 import './Events.css';
@@ -25,10 +25,23 @@ const EventsPage = () => {
     const [organizedEventsList, setOrganizedEventsList] = useState([]);
     const [token] = useState(localStorage.getItem('token'));
 
+    const [filters, setFilters] = useState({
+        name: '',
+        orderBy: 'startTime',
+        order: 'asc',
+        started: '',
+        ended: ''
+    });
+
     const LIMIT = 9;
     const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
-    const fetchEvents = async () => {
+    const handleFilterChange = (e) => {
+        const { name, value } = e.target;
+        setFilters(prev => ({ ...prev, [name]: value }));
+    };
+
+    const fetchEvents = useCallback(async () => {
         try {
             setLoading(true);
             const url = new URL(`${BASE_URL}/events`);
@@ -49,19 +62,17 @@ const EventsPage = () => {
             setEvents(data.results);
             setTotalPages(Math.ceil(data.count / LIMIT));
 
-
         } catch (err) {
             setError('Failed to load events. Please try again later.');
             console.error(err);
         } finally {
             setLoading(false);
         }
-    };
+    }, [page, BASE_URL]);
 
     useEffect(() => {
         fetchEvents();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [page]);
+    }, [fetchEvents, page]);
 
     const handleRsvp = async (eventId) => {
         try {
@@ -82,7 +93,7 @@ const EventsPage = () => {
         }
     };
 
-    const fetchUser = async () => {
+    const fetchUser = useCallback(async () => {
         try {
             const baseUrl = process.env.REACT_APP_BACKEND_URL;
             const response = await fetch(`${baseUrl}/users/me`, {
@@ -100,14 +111,13 @@ const EventsPage = () => {
         } catch (err) {
             console.error(err);
         }
-    };
+    }, [token]);
 
     useEffect(() => {
         if (token) {
             fetchUser();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [token]);
+    }, [fetchUser, token]);
 
     useEffect(() => {
         if (user && user.guestEvents) {
@@ -196,7 +206,46 @@ const EventsPage = () => {
         setPage(prev => Math.min(prev + 1, totalPages));
     };
 
-    const canCreate = user && (user.role === 'manager' || user.role === 'superuser');
+    const isManager = user && (user.role === 'manager' || user.role === 'superuser');
+    const canCreate = isManager;
+
+    const filteredEvents = events.filter(event => {
+        if (filters.name && !event.name.toLowerCase().includes(filters.name.toLowerCase())) {
+            return false;
+        }
+
+        if (isManager) {
+            if (filters.started) {
+                const isStarted = new Date() >= new Date(event.startTime);
+                if (filters.started === 'true' && !isStarted) return false;
+                if (filters.started === 'false' && isStarted) return false;
+            }
+            if (filters.ended) {
+                const isEnded = new Date() >= new Date(event.endTime);
+                if (filters.ended === 'true' && !isEnded) return false;
+                if (filters.ended === 'false' && isEnded) return false;
+            }
+        }
+        return true;
+    }).sort((a, b) => {
+        const { orderBy, order } = filters;
+        const multiplier = order === 'asc' ? 1 : -1;
+
+        let valA = a[orderBy];
+        let valB = b[orderBy];
+
+        if (orderBy === 'startTime' || orderBy === 'endTime') {
+            valA = new Date(valA).getTime();
+            valB = new Date(valB).getTime();
+        } else if (typeof valA === 'string') {
+            valA = valA.toLowerCase();
+            valB = valB.toLowerCase();
+        }
+
+        if (valA < valB) return -1 * multiplier;
+        if (valA > valB) return 1 * multiplier;
+        return 0;
+    });
 
     if (loading && events.length === 0) return <div className="loading">Loading events...</div>;
     if (error) return <div className="error">{error}</div>;
@@ -204,16 +253,52 @@ const EventsPage = () => {
     return (
         <div className="events-container">
             <div className="events-header">
-                <h1>Upcoming Events</h1>
-                <p>Discover and join exclusive events happening near you.</p>
+                <div className="header-content">
+                    <h1>Upcoming Events</h1>
+                    <p>Discover and join exclusive events happening near you.</p>
+                </div>
 
                 {canCreate && (
                     <div className="header-actions">
-                        <Link to="/events/new" className="btn-create">
+                        <Link to="/events/new" className="btn btn-primary">
                             Create Event
                         </Link>
                     </div>
                 )}
+            </div>
+
+            <div className="filters-section">
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="Search by name..."
+                    value={filters.name}
+                    onChange={handleFilterChange}
+                />
+                <select name="orderBy" value={filters.orderBy} onChange={handleFilterChange}>
+                    <option value="id">ID</option>
+                    <option value="name">Name</option>
+                    <option value="startTime">Start Time</option>
+                    <option value="endTime">End Time</option>
+                    <option value="points">Points</option>
+                </select>
+
+                <select name="order" value={filters.order} onChange={handleFilterChange}>
+                    <option value="asc">Ascending</option>
+                    <option value="desc">Descending</option>
+                </select>
+
+                <select name="started" value={filters.started} onChange={handleFilterChange}>
+                    <option value="">Start Status</option>
+                    <option value="true">Started</option>
+                    <option value="false">Not Started</option>
+                </select>
+                <select name="ended" value={filters.ended} onChange={handleFilterChange}>
+                    <option value="">End Status</option>
+                    <option value="true">Ended</option>
+                    <option value="false">Not Ended</option>
+                </select>
+
             </div>
 
             {events.length === 0 ? (
@@ -248,9 +333,7 @@ const EventsPage = () => {
                     )}
 
                     <div className="events-grid">
-                        {events.map(event => {
-                            // Check permissions for this specific event
-                            // Managers can edit any event. Organizers can edit their own.
+                        {filteredEvents.map(event => {
                             const canEdit = (user && (user.role === 'manager' || user.role === 'superuser')) || event.isOrganizer;
 
                             return (
@@ -266,7 +349,6 @@ const EventsPage = () => {
                             );
                         })}
                     </div>
-
 
                     <div className="pagination">
                         <button onClick={handlePrevPage} disabled={page === 1}>
