@@ -13,6 +13,7 @@ const cors = require('cors');
 
 const app = express();
 
+console.log(`JWT Secret: ${process.env.JWT_SECRET}`);
 
 app.use(cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Allow all origins for debugging
@@ -24,6 +25,8 @@ app.use(cors({
 app.get('/', (req, res) => {
     res.status(200).send('Backend is running!');
 });
+
+console.log('CORS middleware initialized. Initializing JWT middleware...');
 
 app.use(
     jwtMiddleware({ secret: JWT_SECRET, algorithms: ['HS256'] })
