@@ -71,7 +71,7 @@ const UserList = ({ users, onUserSelect }) => {
         },
         {
             key: 'suspicious',
-            label: 'ALl Suspicious Statuses',
+            label: 'All Suspicious Statuses',
             options: [
                 { value: 'true', label: 'Suspicious' },
                 { value: 'false', label: 'Not Suspicious' },
