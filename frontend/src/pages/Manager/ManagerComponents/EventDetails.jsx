@@ -97,15 +97,6 @@ const EventDetails = ({ event, onClose, onUpdate }) => {
     };
     */
 
-            alert("Event deleted.");
-            onUpdate();
-        } catch (error) {
-            console.error(error);
-            alert("Failed to delete event.");
-            setLoading(false);
-        }
-    };
-
     const handleRemoveGuest = async (userId) => {
         if (!window.confirm("Remove this guest?")) return;
         try {
