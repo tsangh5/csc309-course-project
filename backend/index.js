@@ -38,8 +38,7 @@ app.use(
 
 if (!global.lastResetRequest) global.lastResetRequest = new Map();
 
-const port = process.env.PORT || 3000;
-
+const port = process.env.PORT || 8080;
 const prisma = new PrismaClient();
 
 app.use(express.json());
@@ -2499,7 +2498,7 @@ app.use((err, req, res, next) => {
     next(err);
 });
 
-const server = app.listen(port, () => {
+const server = app.listen(port, '0.0.0.0', () => {
     console.log(`Server running on port ${port}`);
 });
 
