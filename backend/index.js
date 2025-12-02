@@ -8,6 +8,7 @@ require('dotenv').config();
 
 const express = require('express');
 const JWT_SECRET = process.env.JWT_SECRET || 'temporary_secret_for_debugging';
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 
 const cors = require('cors');
 
@@ -16,7 +17,7 @@ const app = express();
 console.log(`JWT Secret: ${process.env.JWT_SECRET}`);
 
 app.use(cors({
-    origin: '*', // Allow all origins for debugging
+    origin: FRONTEND_URL,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
