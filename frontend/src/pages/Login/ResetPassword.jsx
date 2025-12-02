@@ -7,8 +7,9 @@ const ResetPassword = () => {
     const location = useLocation();
     const query = new URLSearchParams(location.search);
     const token = query.get('token') || '';
+    const urlUtorid = query.get('utorid') || '';
 
-    const [utorid, setUtorid] = useState('');
+    const [utorid, setUtorid] = useState(urlUtorid);
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
     const [message, setMessage] = useState('');
@@ -35,8 +36,8 @@ const ResetPassword = () => {
             if (!res.ok) {
                 setError(data.error || 'Failed to reset password');
             } else {
-                setMessage('Password reset successful. You can now log in.');
-                navigate('/login');
+                setMessage('Password set successfully. You can now log in.');
+                setTimeout(() => navigate('/login'), 2000);
             }
         } catch (err) {
             setError('Network error');
@@ -47,7 +48,7 @@ const ResetPassword = () => {
 
     return (
         <div className="login-container">
-            <h2 className="login-title">Reset Password</h2>
+            <h2 className="login-title">{urlUtorid ? 'Activate Account' : 'Reset Password'}</h2>
             {error && <div className="error-message">{error}</div>}
             {message && <div className="success-message">{message}</div>}
             <form onSubmit={handleSubmit} className="login-form">
@@ -60,6 +61,7 @@ const ResetPassword = () => {
                         value={utorid}
                         onChange={(e) => setUtorid(e.target.value)}
                         required
+                        disabled={!!urlUtorid}
                     />
                 </div>
                 <div className="form-group">

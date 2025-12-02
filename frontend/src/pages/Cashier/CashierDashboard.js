@@ -19,6 +19,10 @@ const CashierDashboard = () => {
                         <h3>Process Redemption</h3>
                         <p>Process a redemption request by ID.</p>
                     </Link>
+                    <Link to="/cashier/register-user" className="cashier-dashboard-card">
+                        <h3>Register User</h3>
+                        <p>Create a new user account.</p>
+                    </Link>
                 </div>
             ) : null}
         </div>

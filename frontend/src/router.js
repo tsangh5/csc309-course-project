@@ -17,9 +17,11 @@ import EditPromotion from './pages/Promotions/EditPromotion';
 import CashierDashboard from './pages/Cashier/CashierDashboard';
 import CreateTransaction from './pages/Cashier/CreateTransaction';
 import ProcessRedemption from './pages/Cashier/ProcessRedemption';
+import RegisterUser from './pages/Cashier/RegisterUser';
 import ManagerDashboard from './pages/Manager/ManagerDashboard';
 import ManagerUserPage from './pages/Manager/ManagerUserPage';
 import ManagerTransactionPage from './pages/Manager/ManagerTransactionPage';
+import ManagerAnalytics from './pages/Manager/ManagerAnalytics';
 
 const router = createBrowserRouter([
     {
@@ -30,14 +32,17 @@ const router = createBrowserRouter([
             { path: '/login', element: <Login /> },
             { path: '/reset-request', element: <ResetRequest /> },
             { path: '/reset-password', element: <ResetPassword /> },
+            { path: '/activate', element: <ResetPassword /> },
             { path: '/dashboard', element: <Dashboard /> },
             { path: '/dashboard/user', element: <User /> },
             { path: '/dashboard/cashier', element: <CashierDashboard /> },
             { path: '/cashier/create-transaction', element: <CreateTransaction /> },
             { path: '/cashier/process-redemption/:id?', element: <ProcessRedemption /> },
+            { path: '/cashier/register-user', element: <RegisterUser /> },
             { path: '/dashboard/manager', element: <ManagerDashboard /> },
             { path: '/dashboard/manager/users', element: <ManagerUserPage /> },
             { path: '/dashboard/manager/transactions', element: <ManagerTransactionPage /> },
+            { path: '/dashboard/manager/analytics', element: <ManagerAnalytics /> },
             { path: '/events', element: <EventsPage /> },
             { path: '/events/new', element: <EventForm /> },
             { path: '/events/:id/people', element: <EventPeople /> },

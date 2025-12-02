@@ -82,6 +82,7 @@ const Navbar = () => {
             {isLoggedIn && (
                 <div className="navbar-actions">
                     <div className="user-menu" ref={dropdownRef}>
+                        {console.log("user:", user)}
                         <div className="user-toggle" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                             <FaUserCircle className="user-icon" />
                             <span className="user-name">{user.utorid}</span>
