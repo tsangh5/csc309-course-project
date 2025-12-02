@@ -83,11 +83,11 @@ const AllTransactionDetails = ({ transaction, onClose, onUpdate }) => {
 
     const getHeaderColor = (type) => {
         switch (type) {
-            case 'purchase': return '#059669'; // Green
-            case 'redemption': return '#ea580c'; // Orange
-            case 'transfer': return '#2563eb'; // Blue
-            case 'adjustment': return '#4b5563'; // Gray
-            case 'event': return '#7c3aed'; // Purple
+            case 'purchase': return '#9b0081ff';
+            case 'redemption': return '#ea580c';
+            case 'transfer': return '#2563eb';
+            case 'adjustment': return '#4b5563';
+            case 'event': return '#0098a9ff';
             default: return '#1f2937';
         }
     };
@@ -199,7 +199,7 @@ const AllTransactionDetails = ({ transaction, onClose, onUpdate }) => {
 
                         <div className="action-section">
                             <form onSubmit={handleCreateAdjustment}>
-                                <div className="form-group">
+                                <div className="details-form-group">
                                     <label>Amount (positive for award, negative for deduct):</label>
                                     <input
                                         type="number"
@@ -208,7 +208,7 @@ const AllTransactionDetails = ({ transaction, onClose, onUpdate }) => {
                                         required
                                     />
                                 </div>
-                                <div className="form-group">
+                                <div className="details-form-group">
                                     <label>Remark:</label>
                                     <input
                                         type="text"
@@ -217,12 +217,12 @@ const AllTransactionDetails = ({ transaction, onClose, onUpdate }) => {
                                         required
                                     />
                                 </div>
-                                <button type="submit" className="details-btn-primary" disabled={loading}>Create Adjustment</button>
+                                <button type="submit" className="details-action-btn details-btn-primary" disabled={loading} style={{ backgroundColor: headerColor }}>Create Adjustment</button>
                             </form>
                         </div>
 
                         <button
-                            className={`action-button ${transaction.suspicious ? 'details-btn-secondary' : 'btn-danger'}`}
+                            className={`details-action-btn ${transaction.suspicious ? 'details-btn-secondary' : 'details-btn-danger'}`}
                             onClick={handleMarkSuspicious}
                             disabled={loading}
                         >
@@ -239,7 +239,7 @@ const AllTransactionDetails = ({ transaction, onClose, onUpdate }) => {
                         </div>
                     )}
                 </div>
-            </div>
+            </div >
         </>
     );
 };

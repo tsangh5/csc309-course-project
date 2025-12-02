@@ -197,9 +197,9 @@
     color: #34495e;
 }
 
-.action-button {
+.details-action-btn {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.75rem 1rem;
     border-radius: 4px;
     border: none;
     font-size: 1rem;
@@ -207,18 +207,12 @@
     cursor: pointer;
     transition: all 0.2s ease;
     color: white;
+    transition: background 0.2s;
+    margin-bottom: 1rem;
 }
 
 .details-btn-primary {
     background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 0.75rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    width: 100%;
-    transition: background 0.2s;
 }
 
 .details-btn-primary:hover {

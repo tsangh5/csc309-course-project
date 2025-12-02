@@ -21,11 +21,11 @@ const TransactionDetailPanel = ({ transaction, onClose }) => {
 
     const getHeaderColor = (type) => {
         switch (type) {
-            case 'purchase': return '#059669'; // Green
+            case 'purchase': return '#9b0081ff'; // Green
             case 'redemption': return '#ea580c'; // Orange
             case 'transfer': return '#2563eb'; // Blue
             case 'adjustment': return '#4b5563'; // Gray
-            case 'event': return '#7c3aed'; // Purple
+            case 'event': return '#0098a9ff'; // Purple
             default: return '#1f2937';
         }
     };
