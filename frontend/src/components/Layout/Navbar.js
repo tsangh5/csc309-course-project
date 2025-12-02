@@ -42,7 +42,7 @@ const Navbar = () => {
     return (
         <nav className="navbar">
             <Link to="/" className="navbar-logo" onClick={() => setIsOpen(false)}>
-                LoyaltyApp
+                Nebula
             </Link>
             <ul className={menuClass}>
                 {isLoggedIn ? (
