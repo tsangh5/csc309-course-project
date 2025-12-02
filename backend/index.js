@@ -116,6 +116,144 @@ app.post('/users', requireClearance('cashier'), async (req, res) => {
     });
 });
 
+app.get('/analytics', requireClearance('manager'), async (req, res) => {
+    try {
+        const getLast7DaysMap = () => {
+            const map = {};
+            for (let i = 0; i < 7; i++) {
+                const d = new Date();
+                d.setDate(d.getDate() - i);
+                const dateStr = d.toISOString().split('T')[0];
+                map[dateStr] = 0;
+            }
+            return map;
+        };
+
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        const revenueAgg = await prisma.transaction.aggregate({
+            _sum: { spent: true },
+            where: { type: 'purchase' }
+        });
+        const totalRevenue = revenueAgg._sum.spent || 0;
+
+        const recentPurchases = await prisma.transaction.findMany({
+            where: { createdAt: { gte: sevenDaysAgo }, type: 'purchase' },
+            select: { createdAt: true, spent: true }
+        });
+        const revenueMap = getLast7DaysMap();
+        recentPurchases.forEach(t => {
+            const date = t.createdAt.toISOString().split('T')[0];
+            if (revenueMap[date] !== undefined) revenueMap[date] += (t.spent || 0);
+        });
+        const revenueChartData = Object.keys(revenueMap).map(date => ({
+            date,
+            revenue: revenueMap[date],
+            value: revenueMap[date]
+        })).sort((a, b) => new Date(a.date) - new Date(b.date));
+        const redeemedAgg = await prisma.transaction.aggregate({
+            _sum: { redeemed: true },
+            where: { type: 'redemption' }
+        });
+        const totalPointsRedeemed = redeemedAgg._sum.redeemed || 0;
+
+        const recentRedemptions = await prisma.transaction.findMany({
+            where: { createdAt: { gte: sevenDaysAgo }, type: 'redemption' },
+            select: { createdAt: true, redeemed: true }
+        });
+        const redemptionMap = getLast7DaysMap();
+        recentRedemptions.forEach(t => {
+            const date = t.createdAt.toISOString().split('T')[0];
+            if (redemptionMap[date] !== undefined) redemptionMap[date] += (t.redeemed || 0);
+        });
+        const redemptionChartData = Object.keys(redemptionMap).map(date => ({
+            date,
+            value: redemptionMap[date]
+        })).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        const totalNewUsers = await prisma.user.count();
+
+        const purchaseCount = await prisma.transaction.count({
+            where: { type: 'purchase' }
+        });
+        const avgTransactionValue = purchaseCount > 0 ? (totalRevenue / purchaseCount) : 0;
+
+        const purchaseCountMap = getLast7DaysMap();
+        recentPurchases.forEach(t => {
+            const date = t.createdAt.toISOString().split('T')[0];
+            if (purchaseCountMap[date] !== undefined) purchaseCountMap[date] += 1;
+        });
+        const purchaseCountChartData = Object.keys(purchaseCountMap).map(date => ({
+            date,
+            value: purchaseCountMap[date]
+        })).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        const awardedAgg = await prisma.transaction.aggregate({
+            _sum: { awarded: true }
+        });
+        const totalPointsAwarded = awardedAgg._sum.awarded || 0;
+        const pointRedemptionRate = totalPointsAwarded > 0 ? (totalPointsRedeemed / totalPointsAwarded) * 100 : 0;
+
+        const activeEvents = await prisma.event.findMany({
+            where: { endTime: { gte: sevenDaysAgo } },
+            select: { startTime: true, endTime: true }
+        });
+        const eventMap = getLast7DaysMap();
+        Object.keys(eventMap).forEach(dateStr => {
+            const dayStart = new Date(dateStr).getTime();
+            const dayEnd = dayStart + (24 * 60 * 60 * 1000) - 1;
+
+            let count = 0;
+            activeEvents.forEach(e => {
+                const eStart = new Date(e.startTime).getTime();
+                const eEnd = new Date(e.endTime).getTime();
+                
+                if (eStart <= dayEnd && eEnd >= dayStart) {
+                    count++;
+                }
+            });
+            eventMap[dateStr] = count;
+        });
+        const eventChartData = Object.keys(eventMap).map(date => ({
+            date,
+            value: eventMap[date]
+        })).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        const thirtyDaysAgo = new Date();
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+        const allTransactions = await prisma.transaction.findMany({
+            where: { createdAt: { gte: thirtyDaysAgo } },
+            select: { createdAt: true }
+        });
+        const hourMap = new Array(24).fill(0);
+        allTransactions.forEach(t => {
+            const hour = new Date(t.createdAt).getHours();
+            hourMap[hour] += 1;
+        });
+        const hourlyChartData = hourMap.map((count, hour) => ({
+            label: `${hour}:00`,
+            value: count
+        }));
+
+
+        res.json({
+            totalRevenue,
+            totalPointsRedeemed,
+            totalNewUsers,
+            avgTransactionValue,
+            pointRedemptionRate,
+            revenueChartData,
+            eventChartData,
+            redemptionChartData,
+            purchaseCountChartData,
+            hourlyChartData
+        });
+    } catch (error) {
+        console.error('Error fetching analytics:', error);
+        res.status(500).json({ error: 'Failed to fetch analytics data' });
+    }
+});
+
 app.get('/users', requireClearance('manager'), async (req, res) => {
 
     const { name, role, verified, activated, page = 1, limit = 10 } = req.query;

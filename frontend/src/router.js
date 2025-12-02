@@ -21,6 +21,7 @@ import RegisterUser from './pages/Cashier/RegisterUser';
 import ManagerDashboard from './pages/Manager/ManagerDashboard';
 import ManagerUserPage from './pages/Manager/ManagerUserPage';
 import ManagerTransactionPage from './pages/Manager/ManagerTransactionPage';
+import ManagerAnalytics from './pages/Manager/ManagerAnalytics';
 
 const router = createBrowserRouter([
     {
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
             { path: '/dashboard/manager', element: <ManagerDashboard /> },
             { path: '/dashboard/manager/users', element: <ManagerUserPage /> },
             { path: '/dashboard/manager/transactions', element: <ManagerTransactionPage /> },
+            { path: '/dashboard/manager/analytics', element: <ManagerAnalytics /> },
             { path: '/events', element: <EventsPage /> },
             { path: '/events/new', element: <EventForm /> },
             { path: '/events/:id/people', element: <EventPeople /> },

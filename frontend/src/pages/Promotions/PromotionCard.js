@@ -4,7 +4,7 @@ import { FaPencilAlt, FaRegTrashAlt } from "react-icons/fa";
 import { MdLocalOffer } from "react-icons/md";
 import './Promotions.css';
 
-const PromotionCard = ({ promotion, canEdit, onDelete }) => {
+const PromotionCard = ({ promotion, canEdit, onDelete, showId }) => {
     const formatDate = (dateString) => {
         const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
         return new Date(dateString).toLocaleDateString(undefined, options);
@@ -24,9 +24,16 @@ const PromotionCard = ({ promotion, canEdit, onDelete }) => {
     return (
         <div className="promotion-card">
             <div className="promotion-card-header" style={{ background: `linear-gradient(135deg, ${getTypeColor(promotion.type)} 0%, ${getTypeColor(promotion.type)}dd 100%)` }}>
-                <span className="promotion-type-badge">
-                    <MdLocalOffer /> {promotion.type}
-                </span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <span className="promotion-type-badge">
+                        <MdLocalOffer /> {promotion.type}
+                    </span>
+                    {showId && (
+                        <span style={{ background: 'rgba(255,255,255,0.2)', padding: '0.1rem 0.4rem', borderRadius: '4px', fontSize: '0.8rem' }}>
+                            #{promotion.id}
+                        </span>
+                    )}
+                </div>
                 {isActive() && (
                     <span className="promotion-active-badge">ACTIVE</span>
                 )}
