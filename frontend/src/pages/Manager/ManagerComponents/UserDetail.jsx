@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './UserDetail.css';
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
 
 const UserDetail = ({ user, onClose, onUpdate, editMode, setEditMode }) => {
     const [loading, setLoading] = useState(false);
@@ -78,7 +78,7 @@ const UserDetail = ({ user, onClose, onUpdate, editMode, setEditMode }) => {
 
     const getHeaderColor = (type) => {
         switch (type) {
-            case 'regular': return '#059669';
+            case 'regular': return '#9b0081ff';
             case 'cashier': return '#ea580c';
             case 'manager': return '#2563eb';
             case 'superuser': return '#4b5563';
@@ -92,7 +92,7 @@ const UserDetail = ({ user, onClose, onUpdate, editMode, setEditMode }) => {
         <div className="details-container">
             <div className="details-header" style={{ backgroundColor: headerColor }}>
                 <div>
-                    <h2 className="details-title">User Details #{user.id}</h2>
+                    <h2 className="details-title">User #{user.id}</h2>
                     <p className="details-subtitle">{formatDate(user.createdAt)}</p>
                 </div>
                 <button className="details-close-btn" onClick={onClose} aria-label="Close details">&times;</button>
@@ -137,8 +137,8 @@ const UserDetail = ({ user, onClose, onUpdate, editMode, setEditMode }) => {
                             </div>
                         </div>
 
-                        <button className="details-btn-save" onClick={handleSave} disabled={loading}>Save</button>
-                        <button className="details-btn-cancel" onClick={() => setEditMode(false)} disabled={loading}>Cancel</button>
+                        <button className="details-action-btn" onClick={handleSave} disabled={loading} style={{ backgroundColor: headerColor }}>Save</button>
+                        <button className="details-action-btn details-btn-danger" onClick={() => setEditMode(false)} disabled={loading}>Cancel</button>
                     </div>
                 ) : (
                     <div className="details-details">
@@ -174,7 +174,7 @@ const UserDetail = ({ user, onClose, onUpdate, editMode, setEditMode }) => {
                             <span className="details-label">Last Login</span>
                             <span className="details-value">{user.lastLogin ? new Date(user.lastLogin).toLocaleString() : 'Never'}</span>
                         </div>
-                        <button className="details-btn-primary" onClick={() => setEditMode(true)}>Edit User</button>
+                        <button className="details-action-btn" onClick={() => setEditMode(true)} style={{ backgroundColor: headerColor }}>Edit User</button>
                     </div>
                 )}
             </div>

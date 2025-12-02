@@ -15,7 +15,7 @@ const Login = () => {
         setLoading(true);
 
         try {
-            const baseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+            const baseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
             console.log(process.env.REACT_APP_BACKEND_URL)
             const response = await fetch(`${baseUrl}/auth/tokens`, {
                 method: 'POST',
@@ -25,12 +25,17 @@ const Login = () => {
                 body: JSON.stringify({ utorid, password }),
             });
 
-            const user = await response.json();
-
             if (!response.ok) {
-                throw new Error(user.error || 'Login failed');
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    const user = await response.json();
+                    throw new Error(user.error || 'Login failed');
+                } else {
+                    throw new Error('Server error - please check backend connection');
+                }
             }
 
+            const user = await response.json();
             localStorage.setItem('token', user.token);
             const role = user.role;
             if (role === 'regular') {
@@ -39,8 +44,8 @@ const Login = () => {
                 navigate('/dashboard/');
             }
         } catch (err) {
-            if (err === "Failed to fetch") {
-                setError("User not found")
+            if (err.message === "Failed to fetch") {
+                setError("Could not connect to server")
             } else {
                 setError(err.message);
             }

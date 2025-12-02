@@ -8,22 +8,28 @@ require('dotenv').config();
 
 const express = require('express');
 const JWT_SECRET = process.env.JWT_SECRET || 'temporary_secret_for_debugging';
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 
 const cors = require('cors');
 
 const app = express();
 
+console.log(`JWT Secret: ${process.env.JWT_SECRET}`);
 
 app.use(cors({
-    origin: true, // Allow all origins for debugging
+    origin: true, // Allow all origins for now to fix connection issues
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
 }));
 
+app.use(express.json());
+
 app.get('/', (req, res) => {
     res.status(200).send('Backend is running!');
 });
+
+console.log('CORS middleware initialized. Initializing JWT middleware...');
 
 app.use(
     jwtMiddleware({ secret: JWT_SECRET, algorithms: ['HS256'] })
@@ -38,11 +44,8 @@ app.use(
 
 if (!global.lastResetRequest) global.lastResetRequest = new Map();
 
-const port = process.env.PORT || 4000;
-
+const port = process.env.PORT || 8080;
 const prisma = new PrismaClient();
-
-app.use(express.json());
 
 function requireClearance(minRole) {
     const levels = { regular: 1, cashier: 2, manager: 3, superuser: 4 };
@@ -778,6 +781,11 @@ app.post('/users/:userId/transactions', requireClearance('regular'), async (req,
     });
 });
 
+app.use((req, res, next) => {
+    // This logs the method and path of every request hitting your server
+    console.log(`INCOMING REQUEST: ${req.method} ${req.originalUrl}`);
+    next();
+});
 
 app.post('/auth/tokens', async (req, res) => {
     const { utorid, password } = req.body;
@@ -2499,7 +2507,7 @@ app.use((err, req, res, next) => {
     next(err);
 });
 
-const server = app.listen(port, () => {
+const server = app.listen(port, '0.0.0.0', () => {
     console.log(`Server running on port ${port}`);
 });
 

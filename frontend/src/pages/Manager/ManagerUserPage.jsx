@@ -4,7 +4,7 @@ import UserDetail from './ManagerComponents/UserDetail';
 import RegisterUserForm from '../../components/Forms/RegisterUserForm';
 import './ManagerPages.css';
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
 
 const ManagerUserPage = () => {
     const [users, setUsers] = useState([]);
@@ -41,6 +41,7 @@ const ManagerUserPage = () => {
 
     useEffect(() => {
         fetchUsers();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleUserSelect = (user) => {
@@ -64,6 +65,10 @@ const ManagerUserPage = () => {
                 }
             } catch (error) {
                 console.error(error);
+            }
+            if (res.ok) {
+                const updatedUser = await res.json();
+                setSelectedUser(updatedUser);
             }
         }
     };

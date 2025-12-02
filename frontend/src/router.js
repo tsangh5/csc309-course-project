@@ -19,8 +19,6 @@ import CreateTransaction from './pages/Cashier/CreateTransaction';
 import ProcessRedemption from './pages/Cashier/ProcessRedemption';
 import RegisterUser from './pages/Cashier/RegisterUser';
 import ManagerDashboard from './pages/Manager/ManagerDashboard';
-import ManagerEventPage from './pages/Manager/ManagerEventPage';
-import ManagerPromotionPage from './pages/Manager/ManagerPromotionPage';
 import ManagerUserPage from './pages/Manager/ManagerUserPage';
 import ManagerTransactionPage from './pages/Manager/ManagerTransactionPage';
 
@@ -41,8 +39,6 @@ const router = createBrowserRouter([
             { path: '/cashier/process-redemption/:id?', element: <ProcessRedemption /> },
             { path: '/cashier/register-user', element: <RegisterUser /> },
             { path: '/dashboard/manager', element: <ManagerDashboard /> },
-            { path: '/dashboard/manager/events', element: <ManagerEventPage /> },
-            { path: '/dashboard/manager/promotions', element: <ManagerPromotionPage /> },
             { path: '/dashboard/manager/users', element: <ManagerUserPage /> },
             { path: '/dashboard/manager/transactions', element: <ManagerTransactionPage /> },
             { path: '/events', element: <EventsPage /> },

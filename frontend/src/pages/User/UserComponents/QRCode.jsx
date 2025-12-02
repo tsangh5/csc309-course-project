@@ -1,7 +1,7 @@
 import React from 'react';
 import './QRCode.css';
 
-const QRCode = ({ data, label, description }) => {
+const QRCode = ({ data, label, description, className }) => {
 
     if (!data) return null;
 
@@ -10,7 +10,7 @@ const QRCode = ({ data, label, description }) => {
         : null;
 
     return (
-        <div className="qrcode-container">
+        <div className={`qrcode-container ${className || ''}`}>
             {label && <h3 className="qrcode-title">{label}</h3>}
             {qrUrl ? (
                 <img

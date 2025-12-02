@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Transfer.css';
 
-const PointTransfer = ({ token }) => {
+const PointTransfer = ({ token, className }) => {
     const [recipientId, setRecipientId] = useState('');
     const [amount, setAmount] = useState('');
     const [remark, setRemark] = useState('');
@@ -13,7 +13,7 @@ const PointTransfer = ({ token }) => {
         setStatus({ type: '', message: '' });
         setIsLoading(true);
 
-        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
 
         try {
             const userIdNum = parseInt(recipientId, 10);
@@ -57,7 +57,7 @@ const PointTransfer = ({ token }) => {
     };
 
     return (
-        <div className="pt-container">
+        <div className={`pt-container ${className || ''}`}>
             <h2 className="pt-header">Transfer Points</h2>
 
             {status.message && (

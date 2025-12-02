@@ -1,0 +1,8 @@
+.transaction-history-container {
+    width: 100%;
+}
+
+.transaction-history-container .datatable-card {
+    width: 100%;
+    max-width: none;
+}

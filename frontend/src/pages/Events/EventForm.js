@@ -63,12 +63,7 @@ const EventForm = () => {
                 startTime: formatForInput(data.startTime),
                 endTime: formatForInput(data.endTime),
                 capacity: data.capacity || '',
-                points: data.pointsRemain || '', // Note: API might return pointsRemain, but for editing we might want original points? 
-                // Actually, backend PATCH allows updating 'points' which adds to pointsRemain.
-                // For simplicity, let's just show pointsRemain or maybe we need a dedicated field.
-                // The requirement says "Managers allocate a set number of points".
-                // Let's assume 'points' field updates the total available.
-                // Let's assume 'points' field updates the total available.
+                points: data.pointsRemain || '',
             });
         } catch (err) {
             setError(err.message);
@@ -222,7 +217,7 @@ const EventForm = () => {
 
 
 
-                <button type="submit" className="btn-create submit-btn">
+                <button type="submit" className="btn btn-primary">
                     {isEditMode ? 'Update Event' : 'Create Event'}
                 </button>
             </form>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { authHelper } from '../../utils/authHelper.js';
+import PromotionCard from './PromotionCard';
 import './Promotions.css';
 
 const PromotionsList = () => {
@@ -20,7 +21,7 @@ const PromotionsList = () => {
         order: 'asc'
     });
 
-    const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
 
     useEffect(() => {
         const decoded = authHelper();
@@ -165,23 +166,12 @@ const PromotionsList = () => {
                 <>
                     <div className="promotions-grid">
                         {promotions.map(promo => (
-                            <div key={promo.id} className="promotion-card">
-                                <h3>{promo.name}</h3>
-                                <p className="promo-type">{promo.type}</p>
-                                <p>{promo.description}</p>
-                                <div className="promo-details">
-                                    {promo.points && <p>Points: {promo.points}</p>}
-                                    {promo.rate && <p>Rate: {promo.rate}x</p>}
-                                    {promo.minSpending && <p>Min Spend: ${promo.minSpending}</p>}
-                                    <p>Ends: {new Date(promo.endTime).toLocaleDateString()}</p>
-                                </div>
-                                {isManager && (
-                                    <div className="promo-actions">
-                                        <Link to={`/promotions/${promo.id}/edit`} className="btn btn-small">Edit</Link>
-                                        <button onClick={() => handleDelete(promo.id)} className="btn btn-small btn-danger">Delete</button>
-                                    </div>
-                                )}
-                            </div>
+                            <PromotionCard
+                                key={promo.id}
+                                promotion={promo}
+                                canEdit={isManager}
+                                onDelete={handleDelete}
+                            />
                         ))}
                     </div>
 

@@ -26,8 +26,8 @@ const ResetPassword = () => {
         }
         setLoading(true);
         try {
-            const baseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
-            const res = await fetch(`${baseUrl}/auth/resets/${encodeURIComponent(token)}`, {
+            const baseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
+            const res = await fetch(`${baseUrl}/auth/tokens${encodeURIComponent(token)}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ utorid, password }),

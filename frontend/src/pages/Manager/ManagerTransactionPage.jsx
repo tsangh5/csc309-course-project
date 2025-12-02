@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AllTransactionHistory from './ManagerComponents/AllTransactionHistory';
 import AllTransactionDetails from './ManagerComponents/AllTransactionDetails';
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
 
 const ManagerTransactionPage = () => {
     const [transactions, setTransactions] = useState([]);
@@ -35,6 +35,7 @@ const ManagerTransactionPage = () => {
 
     useEffect(() => {
         fetchTransactions();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleTransactionSelect = (transaction) => {

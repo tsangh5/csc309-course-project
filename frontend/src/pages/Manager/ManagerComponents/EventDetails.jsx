@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './EventDetails.css';
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
 
 const EventDetails = ({ event, onClose, onUpdate }) => {
     const [loading, setLoading] = useState(false);
@@ -13,6 +13,7 @@ const EventDetails = ({ event, onClose, onUpdate }) => {
 
     useEffect(() => {
         fetchGuests();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [event.id]);
 
     useEffect(() => {
@@ -69,6 +70,7 @@ const EventDetails = ({ event, onClose, onUpdate }) => {
         }
     };
 
+    /*
     const handleDelete = async () => {
         if (!window.confirm("Are you sure you want to delete this event?")) return;
         try {
@@ -82,15 +84,18 @@ const EventDetails = ({ event, onClose, onUpdate }) => {
             });
 
             if (!response.ok) throw new Error('Failed to delete event');
-
-            alert("Event deleted.");
-            onUpdate();
+            
+            alert("Event deleted successfully!");
+            onUpdate(); // This should probably trigger a refresh in parent
+            onBack();
         } catch (error) {
             console.error(error);
             alert("Failed to delete event.");
+        } finally {
             setLoading(false);
         }
     };
+    */
 
     const handleRemoveGuest = async (userId) => {
         if (!window.confirm("Remove this guest?")) return;
