@@ -15,7 +15,7 @@ const app = express();
 
 
 app.use(cors({
-    origin: true, // Allow all origins for debugging
+    origin: process.env.FRONTEND_URL || 'http://localhost:3000', // Allow all origins for debugging
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
@@ -38,7 +38,7 @@ app.use(
 
 if (!global.lastResetRequest) global.lastResetRequest = new Map();
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 
 const prisma = new PrismaClient();
 
