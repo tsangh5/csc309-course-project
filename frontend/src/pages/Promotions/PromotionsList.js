@@ -102,6 +102,7 @@ const PromotionsList = () => {
     };
 
     const isManager = userRole === 'manager' || userRole === 'superuser';
+    const isStaff = ['cashier', 'manager', 'superuser'].includes(userRole);
 
     return (
         <div className="promotions-container">
@@ -170,6 +171,7 @@ const PromotionsList = () => {
                                 key={promo.id}
                                 promotion={promo}
                                 canEdit={isManager}
+                                showId={isStaff}
                                 onDelete={handleDelete}
                             />
                         ))}
