@@ -121,8 +121,6 @@ const EventDetails = ({ event, onClose, onUpdate }) => {
         }
     };
 
-    console.log(event)
-
     return (
         <div className="details-container">
             <div className="details-header" style={{ backgroundColor: '#1e1e1e' }}>

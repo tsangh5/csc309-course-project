@@ -110,7 +110,7 @@ const EventsPage = () => {
         } catch (err) {
             console.error(err);
         }
-    }, [token]);
+    }, [token, BASE_URL]);
 
     useEffect(() => {
         if (token) {
