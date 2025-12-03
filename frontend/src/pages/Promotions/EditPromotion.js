@@ -104,11 +104,11 @@ const EditPromotion = () => {
     };
 
     if (loading) return <p>Loading...</p>;
-    if (error) return <p className="error-message">{error}</p>;
 
     return (
         <div className="promotion-form-container">
             <h2>Edit Promotion</h2>
+            {error && <div className="error-message" style={{ color: 'red', marginBottom: '1rem' }}>{error}</div>}
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>Name</label>

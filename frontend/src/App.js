@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from './components/Layout/Navbar';
 
@@ -7,7 +7,9 @@ function App() {
     <div className="App">
       <Navbar />
       <main>
-        <Outlet />
+        <Suspense fallback={<div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>}>
+          <Outlet />
+        </Suspense>
       </main>
     </div>
   );

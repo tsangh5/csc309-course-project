@@ -82,7 +82,7 @@ const PromotionsList = () => {
 
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`/promotions/${id}`, {
+            const response = await fetch(`${BASE_URL}/promotions/${id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`

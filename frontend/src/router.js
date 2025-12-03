@@ -1,29 +1,30 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
-import Home from './pages/Home/Home';
-import User from './pages/User/User';
-import Dashboard from './pages/Dashboard';
-import Login from './pages/Login/Login';
-import ResetRequest from './pages/Login/ResetRequest';
-import ResetPassword from './pages/Login/ResetPassword';
-import EventsPage from './pages/Events/Events';
-import EventForm from './pages/Events/EventForm';
-import EventDetails from './pages/Events/EventDetails';
-import EventPeople from './pages/Events/EventPeople';
-import PromotionsList from './pages/Promotions/PromotionsList';
-import CreatePromotion from './pages/Promotions/CreatePromotion';
-import EditPromotion from './pages/Promotions/EditPromotion';
-import CashierDashboard from './pages/Cashier/CashierDashboard';
-import CreateTransaction from './pages/Cashier/CreateTransaction';
-import ProcessRedemption from './pages/Cashier/ProcessRedemption';
-import RegisterUser from './pages/Cashier/RegisterUser';
-import ManagerDashboard from './pages/Manager/ManagerDashboard';
-import ManagerUserPage from './pages/Manager/ManagerUserPage';
-import ManagerTransactionPage from './pages/Manager/ManagerTransactionPage';
-import ManagerAnalytics from './pages/Manager/ManagerAnalytics';
-import Admin from './pages/Admin/Admin';
-import Profile from './pages/User/Profile';
+
+const Home = lazy(() => import('./pages/Home/Home'));
+const User = lazy(() => import('./pages/User/User'));
+const Dashboard = lazy(() => import('./pages/Dashboard'));
+const Login = lazy(() => import('./pages/Login/Login'));
+const ResetRequest = lazy(() => import('./pages/Login/ResetRequest'));
+const ResetPassword = lazy(() => import('./pages/Login/ResetPassword'));
+const EventsPage = lazy(() => import('./pages/Events/Events'));
+const EventForm = lazy(() => import('./pages/Events/EventForm'));
+const EventDetails = lazy(() => import('./pages/Events/EventDetails'));
+const EventPeople = lazy(() => import('./pages/Events/EventPeople'));
+const PromotionsList = lazy(() => import('./pages/Promotions/PromotionsList'));
+const CreatePromotion = lazy(() => import('./pages/Promotions/CreatePromotion'));
+const EditPromotion = lazy(() => import('./pages/Promotions/EditPromotion'));
+const CashierDashboard = lazy(() => import('./pages/Cashier/CashierDashboard'));
+const CreateTransaction = lazy(() => import('./pages/Cashier/CreateTransaction'));
+const ProcessRedemption = lazy(() => import('./pages/Cashier/ProcessRedemption'));
+const RegisterUser = lazy(() => import('./pages/Cashier/RegisterUser'));
+const ManagerDashboard = lazy(() => import('./pages/Manager/ManagerDashboard'));
+const ManagerUserPage = lazy(() => import('./pages/Manager/ManagerUserPage'));
+const ManagerTransactionPage = lazy(() => import('./pages/Manager/ManagerTransactionPage'));
+const ManagerAnalytics = lazy(() => import('./pages/Manager/ManagerAnalytics'));
+const Admin = lazy(() => import('./pages/Admin/Admin'));
+const Profile = lazy(() => import('./pages/User/Profile'));
 
 const router = createBrowserRouter([
     {

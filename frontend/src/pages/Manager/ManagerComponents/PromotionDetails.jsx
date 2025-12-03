@@ -53,14 +53,17 @@ const PromotionDetails = ({ promotion, onBack, onUpdate }) => {
                 }
             });
 
-            if (!response.ok) throw new Error('Failed to delete promotion');
+            if (!response.ok) {
+                const data = await response.json().catch(() => ({}));
+                throw new Error(data.error || 'Failed to delete promotion');
+            }
 
             alert("Promotion deleted.");
             onBack();
             onUpdate();
         } catch (error) {
             console.error(error);
-            alert("Failed to delete promotion.");
+            alert(error.message);
             setLoading(false);
         }
     };

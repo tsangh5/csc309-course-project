@@ -2463,6 +2463,10 @@ app.patch('/promotions/:promotionId', requireClearance('manager'), async (req, r
     const hasStarted = promotion.startTime <= now;
     const hasEnded = promotion.endTime <= now;
 
+    if (hasStarted) {
+        return res.status(400).json({ error: 'Cannot update a promotion that has started' });
+    }
+
     if (hasEnded) {
         return res.status(400).json({ error: 'Cannot update a promotion that has ended' });
     }
