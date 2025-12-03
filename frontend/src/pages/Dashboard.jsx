@@ -1,11 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import './Dashboard.css';
 import { authHelper } from '../utils/authHelper'
 
 const GeneralDashboard = () => {
 
     const user = authHelper();
+
+    if (!user) {
+        return <Navigate to="/login" replace />;
+    }
+
     const role = user.role;
 
     return (

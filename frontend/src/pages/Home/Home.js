@@ -1,11 +1,21 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './Home.css';
 import { PiHandCoinsDuotone } from "react-icons/pi";
 import { FaTrophy, FaGifts } from "react-icons/fa";
+import { authHelper } from '../../utils/authHelper';
 
 
 const Home = () => {
+    const navigate = useNavigate();
+    const user = authHelper();
+
+    useEffect(() => {
+        if (user) {
+            navigate('/dashboard');
+        }
+    }, [user, navigate]);
+
     return (
         <div className="home-container">
             <section className="hero-section">
