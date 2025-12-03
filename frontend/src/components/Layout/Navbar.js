@@ -91,6 +91,9 @@ const Navbar = () => {
                                 <div className="user-info">
                                     <p className="user-name-display">{user.role}</p>
                                 </div>
+                                <button className="profile-btn" onClick={() => navigate('/profile')}>
+                                    Profile
+                                </button>
                                 <button className="logout-btn" onClick={handleLogout}>
                                     Logout
                                 </button>

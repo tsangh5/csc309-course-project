@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import './Promotions.css';
 
+
 const EditPromotion = () => {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -17,12 +18,13 @@ const EditPromotion = () => {
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL || "http://localhost:4000";
 
     useEffect(() => {
         const fetchPromotion = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`/promotions/${id}`, {
+                const response = await fetch(`${BASE_URL}/promotions/${id}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -33,7 +35,7 @@ const EditPromotion = () => {
                 }
 
                 const data = await response.json();
-                
+
                 // Format dates for datetime-local input
                 const formatDate = (dateString) => {
                     if (!dateString) return '';
@@ -112,7 +114,7 @@ const EditPromotion = () => {
                     <label>Name</label>
                     <input type="text" name="name" value={formData.name} onChange={handleChange} required />
                 </div>
-                
+
                 <div className="form-group">
                     <label>Description</label>
                     <textarea name="description" value={formData.description} onChange={handleChange} required />

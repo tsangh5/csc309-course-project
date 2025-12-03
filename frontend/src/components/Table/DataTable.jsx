@@ -36,6 +36,7 @@ const DataTable = ({
     };
 
     const handleFilterChange = (key, value) => {
+        setCurrentPage(1);
         setActiveFilters(prev => ({ ...prev, [key]: value }));
     };
 

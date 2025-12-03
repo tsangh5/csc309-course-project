@@ -23,6 +23,7 @@ import ManagerUserPage from './pages/Manager/ManagerUserPage';
 import ManagerTransactionPage from './pages/Manager/ManagerTransactionPage';
 import ManagerAnalytics from './pages/Manager/ManagerAnalytics';
 import Admin from './pages/Admin/Admin';
+import Profile from './pages/User/Profile';
 
 const router = createBrowserRouter([
     {
@@ -53,6 +54,7 @@ const router = createBrowserRouter([
             { path: '/promotions', element: <PromotionsList /> },
             { path: '/promotions/new', element: <CreatePromotion /> },
             { path: '/promotions/:id/edit', element: <EditPromotion /> },
+            { path: '/profile', element: <Profile /> },
         ],
     },
 ]);
