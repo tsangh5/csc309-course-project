@@ -4,7 +4,7 @@ import UserDetail from './ManagerComponents/UserDetail';
 import RegisterUserForm from '../../components/Forms/RegisterUserForm';
 import './ManagerPages.css';
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 
 const ManagerUserPage = () => {
     const [users, setUsers] = useState([]);

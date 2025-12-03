@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './UserDetail.css';
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 
 const UserDetail = ({ user, onClose, onUpdate, editMode, setEditMode }) => {
     const [loading, setLoading] = useState(false);

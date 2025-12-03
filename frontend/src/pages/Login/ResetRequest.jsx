@@ -15,7 +15,7 @@ const ResetRequest = () => {
         setError('');
         setMessage('');
         try {
-            const baseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
+            const baseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
             const res = await fetch(`${baseUrl}/auth/resets`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

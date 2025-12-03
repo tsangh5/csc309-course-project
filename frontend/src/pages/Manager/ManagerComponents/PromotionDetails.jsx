@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './PromotionDetails.css';
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 
 const PromotionDetails = ({ promotion, onBack, onUpdate }) => {
     const [loading, setLoading] = useState(false);

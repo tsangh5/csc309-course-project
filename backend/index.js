@@ -40,7 +40,7 @@ app.use(
 
 if (!global.lastResetRequest) global.lastResetRequest = new Map();
 
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 4000;
 const prisma = new PrismaClient();
 
 function requireClearance(minRole) {
