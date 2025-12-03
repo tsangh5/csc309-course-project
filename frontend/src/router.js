@@ -12,14 +12,18 @@ const EventsPage = lazy(() => import('./pages/Events/Events'));
 const EventForm = lazy(() => import('./pages/Events/EventForm'));
 const EventDetails = lazy(() => import('./pages/Events/EventDetails'));
 const EventPeople = lazy(() => import('./pages/Events/EventPeople'));
+const EventsLayout = lazy(() => import('./pages/Events/EventsLayout'));
 const PromotionsList = lazy(() => import('./pages/Promotions/PromotionsList'));
 const CreatePromotion = lazy(() => import('./pages/Promotions/CreatePromotion'));
 const EditPromotion = lazy(() => import('./pages/Promotions/EditPromotion'));
+const PromotionsLayout = lazy(() => import('./pages/Promotions/PromotionsLayout'));
 const CashierDashboard = lazy(() => import('./pages/Cashier/CashierDashboard'));
+const CashierLayout = lazy(() => import('./pages/Cashier/CashierLayout'));
 const CreateTransaction = lazy(() => import('./pages/Cashier/CreateTransaction'));
 const ProcessRedemption = lazy(() => import('./pages/Cashier/ProcessRedemption'));
 const RegisterUser = lazy(() => import('./pages/Cashier/RegisterUser'));
 const ManagerDashboard = lazy(() => import('./pages/Manager/ManagerDashboard'));
+const ManagerLayout = lazy(() => import('./pages/Manager/ManagerLayout'));
 const ManagerUserPage = lazy(() => import('./pages/Manager/ManagerUserPage'));
 const ManagerTransactionPage = lazy(() => import('./pages/Manager/ManagerTransactionPage'));
 const ManagerAnalytics = lazy(() => import('./pages/Manager/ManagerAnalytics'));
@@ -38,23 +42,43 @@ const router = createBrowserRouter([
             { path: '/activate', element: <ResetPassword /> },
             { path: '/dashboard', element: <Dashboard /> },
             { path: '/dashboard/user', element: <User /> },
-            { path: '/dashboard/cashier', element: <CashierDashboard /> },
-            { path: '/cashier/create-transaction', element: <CreateTransaction /> },
-            { path: '/cashier/process-redemption/:id?', element: <ProcessRedemption /> },
-            { path: '/cashier/register-user', element: <RegisterUser /> },
-            { path: '/dashboard/manager', element: <ManagerDashboard /> },
-            { path: '/dashboard/manager/users', element: <ManagerUserPage /> },
-            { path: '/dashboard/manager/transactions', element: <ManagerTransactionPage /> },
-            { path: '/dashboard/manager/analytics', element: <ManagerAnalytics /> },
+            {
+                element: <CashierLayout />,
+                children: [
+                    { path: '/dashboard/cashier', element: <CashierDashboard /> },
+                    { path: '/cashier/create-transaction', element: <CreateTransaction /> },
+                    { path: '/cashier/process-redemption/:id?', element: <ProcessRedemption /> },
+                    { path: '/cashier/register-user', element: <RegisterUser /> },
+                ]
+            },
+            {
+                element: <ManagerLayout />,
+                children: [
+                    { path: '/dashboard/manager', element: <ManagerDashboard /> },
+                    { path: '/dashboard/manager/users', element: <ManagerUserPage /> },
+                    { path: '/dashboard/manager/transactions', element: <ManagerTransactionPage /> },
+                    { path: '/dashboard/manager/analytics', element: <ManagerAnalytics /> },
+                ]
+            },
             { path: '/dashboard/admin/', element: <Admin /> },
-            { path: '/events', element: <EventsPage /> },
-            { path: '/events/new', element: <EventForm /> },
-            { path: '/events/:id/people', element: <EventPeople /> },
-            { path: '/events/:id', element: <EventDetails /> },
-            { path: '/events/:id/edit', element: <EventForm /> },
-            { path: '/promotions', element: <PromotionsList /> },
-            { path: '/promotions/new', element: <CreatePromotion /> },
-            { path: '/promotions/:id/edit', element: <EditPromotion /> },
+            {
+                element: <EventsLayout />,
+                children: [
+                    { path: '/events', element: <EventsPage /> },
+                    { path: '/events/new', element: <EventForm /> },
+                    { path: '/events/:id/people', element: <EventPeople /> },
+                    { path: '/events/:id', element: <EventDetails /> },
+                    { path: '/events/:id/edit', element: <EventForm /> },
+                ]
+            },
+            {
+                element: <PromotionsLayout />,
+                children: [
+                    { path: '/promotions', element: <PromotionsList /> },
+                    { path: '/promotions/new', element: <CreatePromotion /> },
+                    { path: '/promotions/:id/edit', element: <EditPromotion /> },
+                ]
+            },
             { path: '/profile', element: <Profile /> },
         ],
     },
