@@ -58,9 +58,9 @@ const EventDetails = () => {
     };
 
     return (
-        <div className="events-container">
-            <div className="event-details-card">
-                <div className="event-details-header">
+        <main className="events-container">
+            <article className="event-details-card">
+                <header className="event-details-header">
                     <h1>{event.name}</h1>
                     <div className="event-meta-badges">
                         {event.published ? (
@@ -70,9 +70,9 @@ const EventDetails = () => {
                         )}
                         <span className="badge points">{event.pointsAwarded || 0} PTS Awarded</span>
                     </div>
-                </div>
+                </header>
 
-                <div className="event-details-body">
+                <section className="event-details-body">
                     <div className="detail-row">
                         <FaCalendarAlt className="detail-icon" />
                         <div>
@@ -107,22 +107,22 @@ const EventDetails = () => {
                         </div>
                     )}
 
-                    <div className="description-section">
+                    <section className="description-section">
                         <h3>About this Event</h3>
                         <p>{event.description}</p>
-                    </div>
+                    </section>
 
-                    <div className="organizers-section">
+                    <section className="organizers-section">
                         <h3>Organizers</h3>
                         <div className="organizer-list">
                             {event.organizers.map(org => (
                                 <span key={org.id} className="organizer-tag">{org.name}</span>
                             ))}
                         </div>
-                    </div>
-                </div>
+                    </section>
+                </section>
 
-                <div className="event-details-footer">
+                <footer className="event-details-footer">
                     <Link to="/events" className="back-link">← Back to Events</Link>
                     {canEdit && (
                         <div className="action-buttons">
@@ -134,9 +134,9 @@ const EventDetails = () => {
                             </Link>
                         </div>
                     )}
-                </div>
-            </div>
-        </div>
+                </footer>
+            </article>
+        </main>
     );
 };
 

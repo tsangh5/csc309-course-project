@@ -117,11 +117,11 @@ const EventForm = () => {
     if (loading) return <div className="loading">Loading...</div>;
 
     return (
-        <div className="events-container">
-            <div className="events-header">
+        <main className="events-container">
+            <header className="events-header">
                 <h1>{isEditMode ? 'Edit Event' : 'Create New Event'}</h1>
                 <Link to="/events" className="back-link">Cancel</Link>
-            </div>
+            </header>
 
             <form onSubmit={handleSubmit} className="event-form">
                 {error && <div className="error-message">{error}</div>}
@@ -221,7 +221,7 @@ const EventForm = () => {
                     {isEditMode ? 'Update Event' : 'Create Event'}
                 </button>
             </form>
-        </div>
+        </main>
     );
 };
 
