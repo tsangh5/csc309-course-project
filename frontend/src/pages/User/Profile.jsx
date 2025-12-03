@@ -10,7 +10,6 @@ const Profile = () => {
     const [success, setSuccess] = useState('');
     const [passwordSuccess, setPasswordSuccess] = useState('');
     const [passwordError, setPasswordError] = useState('');
-    const [birthdayString, setBirthdayString] = useState('');
 
     const [formData, setFormData] = useState({
         name: '',
@@ -25,7 +24,7 @@ const Profile = () => {
         confirm: ''
     });
 
-    const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
     const token = localStorage.getItem('token');
 
     useEffect(() => {
@@ -54,7 +53,7 @@ const Profile = () => {
             setFormData({
                 name: data.name || '',
                 email: data.email || '',
-                birthday: data.birthday.split('T')[0] || '',
+                birthday: data.birthday?.split('T')[0] || '',
                 avatar: data.avatarUrl || ''
             });
         } catch (err) {
@@ -150,12 +149,15 @@ const Profile = () => {
         const file = event.target.files[0];
 
         if (file) {
-            setFormData(prevData => ({
-                ...prevData,
-                avatarFile: file
-            }));
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFormData(prevData => ({
+                    ...prevData,
+                    avatar: reader.result
+                }));
+            };
+            reader.readAsDataURL(file);
         }
-        console.log(file)
     };
 
     if (loading) return <div className="loading">Loading...</div>;

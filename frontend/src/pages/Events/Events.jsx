@@ -250,8 +250,8 @@ const EventsPage = () => {
     if (error) return <div className="error">{error}</div>;
 
     return (
-        <div className="events-container">
-            <div className="events-header">
+        <main className="events-container">
+            <header className="events-header">
                 <div className="header-content">
                     <h1>Upcoming Events</h1>
                     <p>Discover and join exclusive events happening near you.</p>
@@ -264,9 +264,9 @@ const EventsPage = () => {
                         </Link>
                     </div>
                 )}
-            </div>
+            </header>
 
-            <div className="filters-section">
+            <section className="filters-section">
                 <input
                     type="text"
                     name="name"
@@ -298,14 +298,14 @@ const EventsPage = () => {
                     <option value="false">Not Ended</option>
                 </select>
 
-            </div>
+            </section>
 
             {events.length === 0 ? (
                 <div className="no-events">No upcoming events found.</div>
             ) : (
                 <>
                     {user && user.role === 'regular' && (
-                        <div className="my-events-section">
+                        <section className="my-events-section">
                             <h2>My Events</h2>
                             {organizedEventsList.length > 0 ? (
                                 <div className="events-grid">
@@ -328,10 +328,10 @@ const EventsPage = () => {
                             )}
                             <hr className="section-divider" />
                             <h2>All Events</h2>
-                        </div>
+                        </section>
                     )}
 
-                    <div className="events-grid">
+                    <section className="events-grid">
                         {filteredEvents.map(event => {
                             const canEdit = (user && (user.role === 'manager' || user.role === 'superuser')) || event.isOrganizer;
 
@@ -347,9 +347,9 @@ const EventsPage = () => {
                                 />
                             );
                         })}
-                    </div>
+                    </section>
 
-                    <div className="pagination">
+                    <nav className="pagination">
                         <button onClick={handlePrevPage} disabled={page === 1}>
                             Previous
                         </button>
@@ -357,10 +357,10 @@ const EventsPage = () => {
                         <button onClick={handleNextPage} disabled={page === totalPages}>
                             Next
                         </button>
-                    </div>
+                    </nav>
                 </>
             )}
-        </div>
+        </main>
     );
 };
 

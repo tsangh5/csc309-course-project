@@ -151,13 +151,13 @@ const EventPeople = () => {
     if (error) return <div className="error">{error}</div>;
 
     return (
-        <div className="events-container">
-            <div className="events-header">
+        <main className="events-container">
+            <header className="events-header">
                 <h1>Manage People: {event?.name}</h1>
                 <Link to="/events" className="back-link">← Back to Events</Link>
-            </div>
+            </header>
 
-            <div className="tabs">
+            <nav className="tabs">
                 <button
                     className={`tab-btn ${activeTab === 'guests' ? 'active' : ''}`}
                     onClick={() => setActiveTab('guests')}
@@ -170,12 +170,11 @@ const EventPeople = () => {
                 >
                     Organizers ({organizers.length})
                 </button>
-            </div>
+            </nav>
 
-            <div className="guest-management">
-                <div className="add-guest-section">
+            <section className="guest-management">
+                <section className="add-guest-section">
                     <h3>Add {activeTab === 'guests' ? 'Guest' : 'Organizer'}</h3>
-                    {/* Only managers can add organizers. Managers and Organizers can add guests (via RSVP logic usually, but let's allow manual add too) */}
                     {(activeTab === 'guests' || isManager) && (
                         <form onSubmit={handleAddPerson} className="add-guest-form">
                             <input
@@ -198,9 +197,9 @@ const EventPeople = () => {
                             <h4>Points Remaining: {event?.pointsRemain}</h4>
                         </div>
                     )}
-                </div>
+                </section>
 
-                <div className="guest-list-section">
+                <section className="guest-list-section">
                     <h3>{activeTab === 'guests' ? 'Guest List' : 'Organizer List'}</h3>
                     <ul className="guest-list">
                         {(activeTab === 'guests' ? guests : organizers).map(person => (
@@ -234,9 +233,9 @@ const EventPeople = () => {
                             </li>
                         ))}
                     </ul>
-                </div>
-            </div>
-        </div>
+                </section>
+            </section>
+        </main>
     );
 };
 

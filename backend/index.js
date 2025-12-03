@@ -21,7 +21,7 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(express.json());
+app.use(express.json({ limit: '5mb' })); //increase limit for img purposes
 
 app.get('/', (req, res) => {
     res.status(200).send('Backend is running!');
@@ -40,7 +40,7 @@ app.use(
 
 if (!global.lastResetRequest) global.lastResetRequest = new Map();
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 8080;
 const prisma = new PrismaClient();
 
 function requireClearance(minRole) {

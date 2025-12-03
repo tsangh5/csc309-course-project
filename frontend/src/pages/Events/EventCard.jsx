@@ -13,8 +13,8 @@ const EventCard = ({ event, onRsvp, onCancelRsvp, isRsvped, canEdit, onDelete })
     };
 
     return (
-        <div className="event-card">
-            <div className="event-card-header">
+        <article className="event-card">
+            <header className="event-card-header">
                 <span className="event-points">{event.points} PTS</span>
                 {event.isOrganizer && (
                     <span className="event-organizer-icon">
@@ -27,7 +27,7 @@ const EventCard = ({ event, onRsvp, onCancelRsvp, isRsvped, canEdit, onDelete })
                         {event.numGuests} / {event.capacity}
                     </span>
                 )}
-            </div>
+            </header>
             <div className="event-card-body">
                 <Link to={`/events/${event.id}`} className="event-title-link">
                     <h3 className="event-title">{event.name}</h3>
@@ -40,7 +40,7 @@ const EventCard = ({ event, onRsvp, onCancelRsvp, isRsvped, canEdit, onDelete })
                 </p>
                 <p className="event-description">{event.description}</p>
             </div>
-            <div className="event-card-footer">
+            <footer className="event-card-footer">
                 <div className="event-actions">
                     {isRsvped ? (
                         <button className="btn-rsvp cancel" onClick={() => onCancelRsvp(event.id)}>
@@ -70,8 +70,8 @@ const EventCard = ({ event, onRsvp, onCancelRsvp, isRsvped, canEdit, onDelete })
                         </div>
                     )}
                 </div>
-            </div>
-        </div>
+            </footer>
+        </article>
     );
 };
 
