@@ -70,7 +70,7 @@ const Admin = () => {
 
                 <div className="button-group">
                     <button
-                        className="btn-promote btn-manager"
+                        className="action-btn btn-primary"
                         onClick={() => handlePromote('manager')}
                         disabled={loading}
                     >
@@ -78,7 +78,7 @@ const Admin = () => {
                     </button>
 
                     <button
-                        className="btn-promote btn-superuser"
+                        className="action-btn btn-primary"
                         onClick={() => handlePromote('superuser')}
                         disabled={loading}
                     >
