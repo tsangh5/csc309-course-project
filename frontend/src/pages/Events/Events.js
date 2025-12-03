@@ -34,7 +34,7 @@ const EventsPage = () => {
     });
 
     const LIMIT = 6;
-    const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 
     const handleFilterChange = (e) => {
         const { name, value } = e.target;

@@ -78,7 +78,7 @@ const ManagerAnalytics = () => {
         const fetchAnalytics = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const baseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
+                const baseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
                 const response = await fetch(`${baseUrl}/analytics`, {
                     headers: {
                         'Authorization': `Bearer ${token}`

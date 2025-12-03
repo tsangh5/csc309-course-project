@@ -12,7 +12,7 @@ const PointRedemption = ({ token, className }) => {
         setStatus({ type: '', message: '' });
         setIsLoading(true);
 
-        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
+        const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 
         try {
             const pointsNum = parseInt(amount, 10);

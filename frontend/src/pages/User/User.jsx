@@ -8,7 +8,7 @@ import TransactionHistory from './UserComponents/TransactionHistory';
 import TransactionDetailPanel from './UserComponents/TransactionDetails';
 import './User.css';
 
-const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
+const backendUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 
 const User = () => {
     const [user, setUser] = useState(null);
@@ -25,7 +25,7 @@ const User = () => {
                     navigate('/login');
                     return;
                 }
-                const baseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
+                const baseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
                 const response = await fetch(`${baseUrl}/users/me`, {
                     headers: {
                         'Authorization': `Bearer ${token}`

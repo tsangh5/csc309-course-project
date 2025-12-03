@@ -4,6 +4,7 @@ import './Promotions.css';
 
 const CreatePromotion = () => {
     const navigate = useNavigate();
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -36,7 +37,7 @@ const CreatePromotion = () => {
                 endTime: new Date(formData.endTime).toISOString()
             };
 
-            const response = await fetch('/promotions', {
+            const response = await fetch(`${BASE_URL}/promotions`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
