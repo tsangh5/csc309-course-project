@@ -83,7 +83,7 @@ const User = () => {
             {user && (
                 <>
                     <AvailablePoints className="available-points" points={user.points} />
-                    <QRCode className="qr-code" data={user.utorid} label="Scan to Show Information" description="Show this code to the cashier" />
+                    <QRCode className="qr-code" data={user} label="Scan to Show Information" description="Show this code to the cashier" />
                     <Transfer className="transfer" token={token} />
                     <Redemption className="redemption" token={token} />
                     <div className={`transaction-area-wrapper ${selectedTransaction ? 'split-active' : 'full-active'}`}>

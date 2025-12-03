@@ -39,7 +39,7 @@ const router = createBrowserRouter([
             { path: '/dashboard', element: <Dashboard /> },
             { path: '/dashboard/user', element: <User /> },
             { path: '/dashboard/cashier', element: <CashierDashboard /> },
-            { path: '/cashier/create-transaction', element: <CreateTransaction /> },
+            { path: '/cashier/create-transaction/:id?', element: <CreateTransaction /> },
             { path: '/cashier/process-redemption/:id?', element: <ProcessRedemption /> },
             { path: '/cashier/register-user', element: <RegisterUser /> },
             { path: '/dashboard/manager', element: <ManagerDashboard /> },

@@ -1,13 +1,11 @@
 import React from 'react';
 import './QRCode.css';
 
-const QRCode = ({ data, label, description, className }) => {
+const QRCode = ({ label, description, className, data }) => {
 
-    if (!data) return null;
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
 
-    const qrUrl = data
-        ? `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(data)}`
-        : null;
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(BASE_URL + '/cashier/create-transaction/' + data.id)}`;
 
     return (
         <div className={`qrcode-container ${className || ''}`}>
