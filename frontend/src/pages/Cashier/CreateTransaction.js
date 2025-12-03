@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { apiClient } from '../../api/client';
+import { useParams, Link } from 'react-router-dom';
 import './Cashier.css';
 
 const CreateTransaction = () => {
+    const { id } = useParams();
     const [formData, setFormData] = useState({
-        utorid: '',
+        utorid: id || '',
         spent: '',
         remark: '',
         promotionIds: ''
@@ -28,7 +30,7 @@ const CreateTransaction = () => {
                 utorid: formData.utorid,
                 spent: parseFloat(formData.spent),
                 remark: formData.remark,
-                promotionIds: formData.promotionIds 
+                promotionIds: formData.promotionIds
                     ? formData.promotionIds.split(',').map(id => parseInt(id.trim())).filter(id => !isNaN(id))
                     : []
             };
@@ -46,45 +48,45 @@ const CreateTransaction = () => {
             <h2>Create Purchase Transaction</h2>
             {message && <div className="success-message">{message}</div>}
             {error && <div className="error-message">{error}</div>}
-            
+
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label>User UTORid</label>
-                    <input 
-                        type="text" 
-                        name="utorid" 
-                        value={formData.utorid} 
-                        onChange={handleChange} 
-                        required 
+                    <input
+                        type="text"
+                        name="utorid"
+                        value={formData.utorid}
+                        onChange={handleChange}
+                        required
                     />
                 </div>
                 <div className="form-group">
                     <label>Amount Spent ($)</label>
-                    <input 
-                        type="number" 
-                        step="0.01" 
-                        name="spent" 
-                        value={formData.spent} 
-                        onChange={handleChange} 
-                        required 
+                    <input
+                        type="number"
+                        step="0.01"
+                        name="spent"
+                        value={formData.spent}
+                        onChange={handleChange}
+                        required
                     />
                 </div>
                 <div className="form-group">
                     <label>Promotion IDs (comma separated, optional)</label>
-                    <input 
-                        type="text" 
-                        name="promotionIds" 
-                        value={formData.promotionIds} 
-                        onChange={handleChange} 
+                    <input
+                        type="text"
+                        name="promotionIds"
+                        value={formData.promotionIds}
+                        onChange={handleChange}
                         placeholder="e.g. 1, 2"
                     />
                 </div>
                 <div className="form-group">
                     <label>Remark (Optional)</label>
-                    <textarea 
-                        name="remark" 
-                        value={formData.remark} 
-                        onChange={handleChange} 
+                    <textarea
+                        name="remark"
+                        value={formData.remark}
+                        onChange={handleChange}
                     />
                 </div>
                 <button type="submit" className="btn btn-primary">Create Transaction</button>
