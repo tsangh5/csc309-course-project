@@ -14,8 +14,6 @@ const cors = require('cors');
 
 const app = express();
 
-console.log(`JWT Secret: ${process.env.JWT_SECRET}`);
-
 app.use(cors({
     origin: true, // Allow all origins for now to fix connection issues
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
@@ -28,8 +26,6 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.status(200).send('Backend is running!');
 });
-
-console.log('CORS middleware initialized. Initializing JWT middleware...');
 
 app.use(
     jwtMiddleware({ secret: JWT_SECRET, algorithms: ['HS256'] })
@@ -207,7 +203,7 @@ app.get('/analytics', requireClearance('manager'), async (req, res) => {
             activeEvents.forEach(e => {
                 const eStart = new Date(e.startTime).getTime();
                 const eEnd = new Date(e.endTime).getTime();
-                
+
                 if (eStart <= dayEnd && eEnd >= dayStart) {
                     count++;
                 }
@@ -767,7 +763,6 @@ app.patch('/users/:userId', requireClearance('manager'), async (req, res) => {
         if (suspicious === 'true' || suspicious === true) data.suspicious = true;
         else if (suspicious === 'false' || suspicious === false) data.suspicious = false;
         else {
-            console.log("suspicious:" + suspicious);
             return res.status(400).json({ error: 'suspicious must be a boolean' })
         }
     }
@@ -811,8 +806,6 @@ app.patch('/users/:userId', requireClearance('manager'), async (req, res) => {
     if (role === 'cashier' && nextSuspicious === true) {
         return res.status(400).json({ error: 'Suspicious user cannot be a cashier' });
     }
-
-    console.log(data);
 
     const updated = await prisma.user.update({
         where: { id },
@@ -917,12 +910,6 @@ app.post('/users/:userId/transactions', requireClearance('regular'), async (req,
         remark: remark ?? '',
         createdBy: sender.utorid,
     });
-});
-
-app.use((req, res, next) => {
-    // This logs the method and path of every request hitting your server
-    console.log(`INCOMING REQUEST: ${req.method} ${req.originalUrl}`);
-    next();
 });
 
 app.post('/auth/tokens', async (req, res) => {
@@ -2639,7 +2626,6 @@ app.delete('/promotions/:promotionId', requireClearance('manager'), async (req, 
 
 app.use((err, req, res, next) => {
     if (err.name === 'UnauthorizedError') {
-        console.log(req.body);
         return res.status(401).json({ error: 'Invalid or missing token' });
     }
     next(err);
