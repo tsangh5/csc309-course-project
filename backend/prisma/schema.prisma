@@ -92,7 +92,6 @@ model Event {
 
   organizers     EventOrganizer[]
   guests         EventGuest[]
-  transactions   Transaction[]
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
@@ -124,7 +123,6 @@ model EventGuest {
 model Transaction {
   id            Int               @id @default(autoincrement())
   type          TransactionType
-  relatedEvent  Event?            @relation(fields: [relatedId], references: [id], onDelete: Cascade)
   relatedId     Int?
   user          User?             @relation("TransactionUser", fields: [userId], references: [id], onDelete: SetNull)
   userId        Int?
