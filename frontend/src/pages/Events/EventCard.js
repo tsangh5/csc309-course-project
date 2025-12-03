@@ -7,7 +7,6 @@ import { MdOutlineEditCalendar } from "react-icons/md";
 
 
 const EventCard = ({ event, onRsvp, onCancelRsvp, isRsvped, canEdit, onDelete }) => {
-    console.log('event: ', event);
     const formatDate = (dateString) => {
         const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
         return new Date(dateString).toLocaleDateString(undefined, options);
