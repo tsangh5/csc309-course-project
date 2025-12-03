@@ -53,7 +53,7 @@ const Profile = () => {
             setFormData({
                 name: data.name || '',
                 email: data.email || '',
-                birthday: data.birthday.split('T')[0] || '',
+                birthday: data.birthday?.split('T')[0] || '',
                 avatar: data.avatarUrl || ''
             });
         } catch (err) {
