@@ -61,7 +61,6 @@ const PromotionsList = () => {
             setPromotions(data.results);
             setTotalPages(Math.ceil(data.count / 10));
         } catch (err) {
-            console.log(err.message);
             setError(err.message);
         } finally {
             setLoading(false);

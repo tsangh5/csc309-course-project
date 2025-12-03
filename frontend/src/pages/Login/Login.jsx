@@ -16,7 +16,6 @@ const Login = () => {
 
         try {
             const baseUrl = process.env.REACT_APP_BACKEND_URL || 'http://localhost:8080';
-            console.log(process.env.REACT_APP_BACKEND_URL)
             const response = await fetch(`${baseUrl}/auth/tokens`, {
                 method: 'POST',
                 headers: {
