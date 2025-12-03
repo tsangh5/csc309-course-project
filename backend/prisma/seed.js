@@ -9,8 +9,7 @@ const randomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + mi
 async function main() {
   console.log('🌱 Starting database seed...');
 
-  // 1. CLEANUP: Delete existing data in reverse order of dependency
-  // Note: We use deleteMany to clear tables.
+  // 1. CLEANUP
   await prisma.transaction.deleteMany({});
   await prisma.userPromotion.deleteMany({});
   await prisma.eventGuest.deleteMany({});
@@ -22,8 +21,6 @@ async function main() {
   console.log('🧹 Database cleaned.');
 
   // 2. CREATE USERS
-  // Password note: Your backend compares plain text (user.password !== password).
-  // For a real app, hash this! For this seed matching your code, we use plain text.
   const commonPassword = 'Password123!';
 
   // Create Staff
@@ -63,7 +60,7 @@ async function main() {
     }
   });
 
-  // Create Regular Students (15 users to trigger pagination later)
+  // Create Regular Students
   const students = [];
   const firstNames = ['James', 'Mary', 'Robert', 'Patricia', 'John', 'Jennifer', 'Michael', 'Linda', 'David', 'Elizabeth', 'William', 'Barbara', 'Richard', 'Susan', 'Joseph'];
   const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson'];
@@ -73,13 +70,13 @@ async function main() {
     const lname = lastNames[i % lastNames.length];
     const user = await prisma.user.create({
       data: {
-        utorid: `${fname.toLowerCase().substring(0, 3)}${lname.toLowerCase().substring(0, 3)}${randomInt(10, 99)}`, // e.g., jamwil99
+        utorid: `${fname.toLowerCase().substring(0, 3)}${lname.toLowerCase().substring(0, 3)}${randomInt(10, 99)}`,
         name: `${fname} ${lname}`,
         email: `${fname.toLowerCase()}.${lname.toLowerCase()}@mail.utoronto.ca`,
         password: commonPassword,
         role: 'regular',
         verified: true,
-        points: randomInt(100, 5000), // Give them points so they can transfer/redeem
+        points: randomInt(100, 5000),
       }
     });
     students.push(user);
@@ -87,63 +84,72 @@ async function main() {
 
   console.log(`👥 Created ${students.length + 3} users.`);
 
-  // 3. CREATE PROMOTIONS (15 items to test pagination)
+  // 3. CREATE PROMOTIONS
   const promotions = [];
-  const promoTypes = ['automatic', 'onetime'];
 
   for (let i = 1; i <= 15; i++) {
-    const isAuto = i % 2 === 0; // Alternate types
+    const isAuto = i % 2 === 0;
     const promo = await prisma.promotion.create({
       data: {
         name: isAuto ? `Automatic Deal ${i}` : `One-Time Bonus ${i}`,
         description: `This is generated promotion number ${i}. Get points now!`,
         type: isAuto ? 'automatic' : 'onetime',
-        startTime: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString(), // Started 5 days ago
-        endTime: new Date(new Date().setDate(new Date().getDate() + 30)).toISOString(), // Ends in 30 days
+        startTime: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString(),
+        endTime: new Date(new Date().setDate(new Date().getDate() + 30)).toISOString(),
         minSpending: isAuto ? randomInt(5, 50) : null,
-        rate: isAuto ? 0.1 : null, // 10% bonus
-        points: !isAuto ? 500 : null, // Flat 500 points
+        rate: isAuto ? 0.1 : null,
+        points: !isAuto ? 500 : null,
       }
     });
     promotions.push(promo);
   }
   console.log(`🏷️  Created ${promotions.length} promotions.`);
 
-  // 4. CREATE EVENTS (15 items to test pagination)
+  // 4. CREATE EVENTS (Updated with Lat/Long)
   const events = [];
-  const locations = ['Bahen Centre', 'Sidney Smith', 'Exam Centre', 'Student Commons', 'Varsity Stadium'];
+
+  const predefinedLocations = [
+    { name: 'Bahen Centre', lat: 43.6598045, lng: -79.3972980 },
+    { name: 'Sidney Smith', lat: 43.6625230, lng: -79.3985425 },
+    { name: 'Exam Centre', lat: 43.6585451, lng: -79.3929245 },
+    { name: 'Student Commons', lat: 43.6585682, lng: -79.3978995 },
+    { name: 'Varsity Stadium', lat: 43.6670529, lng: -79.3972706 }
+  ];
 
   for (let i = 1; i <= 15; i++) {
+    const locData = random(predefinedLocations);
+
     const event = await prisma.event.create({
       data: {
         name: `UofT Social Event ${i}`,
         description: `Come join us for event ${i}. Free food and drinks!`,
-        location: random(locations),
-        startTime: new Date(new Date().setDate(new Date().getDate() + i)).toISOString(), // Future dates
+        location: locData.name,
+        latitude: locData.lat,
+        longitude: locData.lng,
+        startTime: new Date(new Date().setDate(new Date().getDate() + i)).toISOString(),
         endTime: new Date(new Date().setDate(new Date().getDate() + i + 1)).toISOString(),
         capacity: 100,
-        points: 200, // Budget
+        points: 200,
         pointsRemain: 200,
         pointsAwarded: 0,
         published: true,
         organizers: {
-          create: { userId: manager.id } // Manager organizes them
+          create: { userId: manager.id }
         }
       }
     });
     events.push(event);
   }
-  console.log(`📅 Created ${events.length} events.`);
+  console.log(`📅 Created ${events.length} events with coordinates.`);
 
-  // 5. CREATE TRANSACTIONS (Mix of types)
+  // 5. CREATE TRANSACTIONS
   console.log('💸 Generating transactions...');
 
-  // A. Purchases (10 transactions)
-  // Scenario: Cashier rings up students
+  // A. Purchases
   for (let i = 0; i < 10; i++) {
     const student = random(students);
     const spent = randomInt(10, 100);
-    const awarded = Math.floor(spent * 4); // Base rate from your code
+    const awarded = Math.floor(spent * 4);
 
     await prisma.transaction.create({
       data: {
@@ -154,21 +160,18 @@ async function main() {
         awarded: awarded,
         remark: 'Bookstore purchase',
         suspicious: false,
-        processed: true, // Purchases are auto-processed
+        processed: true,
       }
     });
-    // Update user points
     await prisma.user.update({ where: { id: student.id }, data: { points: { increment: awarded } } });
   }
 
-  // B. Transfers (6 transactions)
-  // Scenario: Student A sends points to Student B
+  // B. Transfers
   for (let i = 0; i < 6; i++) {
     const sender = students[i];
-    const recipient = students[students.length - 1 - i]; // Pick someone else
+    const recipient = students[students.length - 1 - i];
     const amount = 50;
 
-    // Sender Debit
     await prisma.transaction.create({
       data: {
         type: 'transfer',
@@ -179,7 +182,6 @@ async function main() {
         remark: 'Paying you back for lunch',
       }
     });
-    // Recipient Credit
     await prisma.transaction.create({
       data: {
         type: 'transfer',
@@ -191,18 +193,14 @@ async function main() {
       }
     });
 
-    // Update balances
     await prisma.user.update({ where: { id: sender.id }, data: { points: { decrement: amount } } });
     await prisma.user.update({ where: { id: recipient.id }, data: { points: { increment: amount } } });
   }
 
-  // C. Redemptions (8 transactions)
-  // Scenario: Students redeeming points for prizes
+  // C. Redemptions
   for (let i = 0; i < 8; i++) {
     const student = random(students);
     const cost = 100;
-
-    // Half are processed, half are pending
     const isProcessed = i % 2 === 0;
 
     await prisma.transaction.create({
@@ -216,52 +214,41 @@ async function main() {
         processedById: isProcessed ? manager.id : null
       }
     });
-
-    // Code subtracts points immediately upon request? 
-    // Usually yes, to prevent double spend. We'll decrement.
     await prisma.user.update({ where: { id: student.id }, data: { points: { decrement: cost } } });
   }
 
-  // D. Event Attendance (4 transactions)
-  // Scenario: Student attended an event
+  // D. Event Attendance
   const targetEvent = events[0];
   for (let i = 0; i < 4; i++) {
     const student = students[i];
 
-    // 1. Add as guest
     await prisma.eventGuest.create({
       data: { eventId: targetEvent.id, userId: student.id }
     });
 
-    // 2. Award points (Transaction)
     const pointsAwarded = 10;
     await prisma.transaction.create({
       data: {
         type: 'event',
         userId: student.id,
-        relatedId: targetEvent.id, // Links to event
+        relatedId: targetEvent.id,
         createdById: manager.id,
         awarded: pointsAwarded,
         remark: 'Attended Workshop',
       }
     });
-
-    // Update balances
     await prisma.user.update({ where: { id: student.id }, data: { points: { increment: pointsAwarded } } });
   }
 
-  // E. Adjustments (4 transactions)
-  // Scenario: Manager fixes a mistake (Refund or Penalty)
-  // We need to link to a previous transaction. Let's grab the first purchase.
+  // E. Adjustments
   const purchaseTx = await prisma.transaction.findFirst({ where: { type: 'purchase' } });
 
   if (purchaseTx) {
-    // 1. Positive Adjustment (We owe them points)
     await prisma.transaction.create({
       data: {
         type: 'adjustment',
         userId: purchaseTx.userId,
-        relatedId: purchaseTx.id, // Linked to the purchase
+        relatedId: purchaseTx.id,
         createdById: manager.id,
         awarded: 50,
         remark: 'Correction: Forgot student discount',
@@ -269,7 +256,6 @@ async function main() {
     });
     await prisma.user.update({ where: { id: purchaseTx.userId }, data: { points: { increment: 50 } } });
 
-    // 2. Negative Adjustment (They were overpaid)
     await prisma.transaction.create({
       data: {
         type: 'adjustment',

@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { authHelper } from '../../utils/authHelper';
+import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
 import './Events.css';
+
+const libraries = ['places'];
 
 const EventForm = () => {
     const { id } = useParams();
@@ -11,15 +14,25 @@ const EventForm = () => {
     const [error, setError] = useState(null);
     const [user] = useState(authHelper());
 
+    const { isLoaded } = useJsApiLoader({
+        id: 'google-map-script',
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+        libraries: libraries
+    });
+
     const [formData, setFormData] = useState({
         name: '',
         description: '',
         location: '',
+        latitude: null,
+        longitude: null,
         startTime: '',
         endTime: '',
         capacity: '',
         points: ''
     });
+
+    const autocompleteRef = useRef(null);
 
     const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -60,6 +73,8 @@ const EventForm = () => {
                 name: data.name,
                 description: data.description,
                 location: data.location,
+                latitude: data.latitude,
+                longitude: data.longitude,
                 startTime: formatForInput(data.startTime),
                 endTime: formatForInput(data.endTime),
                 capacity: data.capacity || '',
@@ -80,6 +95,33 @@ const EventForm = () => {
         }));
     };
 
+    const onPlaceChanged = () => {
+        if (autocompleteRef.current !== null) {
+            const place = autocompleteRef.current.getPlace();
+
+            if (place.geometry && place.geometry.location) {
+                const lat = place.geometry.location.lat();
+                const lng = place.geometry.location.lng();
+
+                setFormData(prev => ({
+                    ...prev,
+                    location: place.formatted_address || place.name,
+                    latitude: lat,
+                    longitude: lng
+                }));
+            } else if (place.name) {
+                setFormData(prev => ({
+                    ...prev,
+                    location: place.name,
+                }));
+            }
+        }
+    };
+
+    const onLoadAutocomplete = (autocomplete) => {
+        autocompleteRef.current = autocomplete;
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
@@ -88,6 +130,27 @@ const EventForm = () => {
             const url = isEditMode ? `${BASE_URL}/events/${id}` : `${BASE_URL}/events`;
             const method = isEditMode ? 'PATCH' : 'POST';
 
+            let finalLat = formData.latitude;
+            let finalLng = formData.longitude;
+
+            // If coords are missing but we have a location string, try to fetch them now
+            if ((!finalLat || !finalLng) && formData.location && window.google) {
+                try {
+                    const request = {
+                        textQuery: formData.location,
+                        fields: ['location'],
+                        maxResultCount: 1,
+                    };
+                    const { places } = await window.google.maps.places.Place.searchByText(request);
+                    if (places.length > 0 && places[0].location) {
+                        finalLat = places[0].location.lat();
+                        finalLng = places[0].location.lng();
+                    }
+                } catch (fetchErr) {
+                    // Continue without coords if fetch fails
+                }
+            }
+
             // Convert empty strings to null/numbers
             const payload = {
                 ...formData,
@@ -95,6 +158,8 @@ const EventForm = () => {
                 points: formData.points ? parseInt(formData.points) : 0,
                 startTime: new Date(formData.startTime).toISOString(),
                 endTime: new Date(formData.endTime).toISOString(),
+                latitude: finalLat,
+                longitude: finalLng
             };
 
             const response = await fetch(url, {
@@ -152,14 +217,32 @@ const EventForm = () => {
 
                 <div className="form-group">
                     <label>Location</label>
-                    <input
-                        type="text"
-                        name="location"
-                        value={formData.location}
-                        onChange={handleChange}
-                        required
-                        className="input-field"
-                    />
+                    {isLoaded ? (
+                        <Autocomplete
+                            onLoad={onLoadAutocomplete}
+                            onPlaceChanged={onPlaceChanged}
+                        >
+                            <input
+                                type="text"
+                                name="location"
+                                value={formData.location}
+                                onChange={handleChange}
+                                required
+                                className="input-field"
+                                placeholder="Search for a location"
+                            />
+                        </Autocomplete>
+                    ) : (
+                        <input
+                            type="text"
+                            name="location"
+                            value={formData.location}
+                            onChange={handleChange}
+                            required
+                            className="input-field"
+                            placeholder="Loading location search..."
+                        />
+                    )}
                 </div>
 
                 <div className="form-row">

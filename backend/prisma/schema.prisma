@@ -89,6 +89,8 @@ model Event {
   pointsRemain   Int
   pointsAwarded  Int              @default(0)
   published      Boolean          @default(false)
+  latitude       Float?
+  longitude      Float?
 
   organizers     EventOrganizer[]
   guests         EventGuest[]

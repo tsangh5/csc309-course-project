@@ -1039,7 +1039,9 @@ app.post('/events', requireClearance('manager'), async (req, res) => {
         startTime,
         endTime,
         capacity,
-        points
+        points,
+        latitude,
+        longitude
     } = req.body || {};
 
     if (!name) return res.status(400).json({ error: 'name is required' });
@@ -1082,6 +1084,8 @@ app.post('/events', requireClearance('manager'), async (req, res) => {
             capacity: parsedCapacity,
             points: parsedPoints,
             pointsRemain: parsedPoints,
+            latitude,
+            longitude,
         },
         select: {
             id: true,
@@ -1162,6 +1166,8 @@ app.get('/events', requireClearance('regular'), async (req, res) => {
             pointsRemain: true,
             pointsAwarded: true,
             published: true,
+            latitude: true,
+            longitude: true,
         }
     });
 
@@ -1193,6 +1199,8 @@ app.get('/events', requireClearance('regular'), async (req, res) => {
             startTime: e.startTime,
             endTime: e.endTime,
             capacity: e.capacity,
+            latitude: e.latitude,
+            longitude: e.longitude,
             numGuests: countsById[e.id] || 0,
         };
         if (isManager) {
@@ -1722,7 +1730,7 @@ app.patch('/events/:eventId', requireClearance('regular'), async (req, res) => {
         return res.status(400).json({ error: 'eventId must be a positive integer' });
     }
 
-    const { name, description, location, startTime, endTime, capacity, points, published } = req.body || {};
+    const { name, description, location, startTime, endTime, capacity, points, published, latitude, longitude } = req.body || {};
 
     const event = await prisma.event.findUnique({
         where: { id: idNum },
@@ -1841,6 +1849,22 @@ app.patch('/events/:eventId', requireClearance('regular'), async (req, res) => {
         }
         data.published = true;
         updatedFields.add('published');
+    }
+
+    if (latitude !== undefined) {
+        if (latitude !== null && typeof latitude !== 'number') {
+            return res.status(400).json({ error: 'latitude must be a number' });
+        }
+        data.latitude = latitude;
+        updatedFields.add('latitude');
+    }
+
+    if (longitude !== undefined) {
+        if (longitude !== null && typeof longitude !== 'number') {
+            return res.status(400).json({ error: 'longitude must be a number' });
+        }
+        data.longitude = longitude;
+        updatedFields.add('longitude');
     }
 
     if (Object.keys(data).length === 0) {

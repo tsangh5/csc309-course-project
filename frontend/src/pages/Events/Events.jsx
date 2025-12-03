@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
+import { FaList, FaMapMarkedAlt } from 'react-icons/fa';
 import EventCard from './EventCard';
+import MapView from './MapView';
 import './Events.css';
 
 const getHeaders = () => {
@@ -24,6 +26,7 @@ const EventsPage = () => {
     const [user, setUser] = useState(null);
     const [organizedEventsList, setOrganizedEventsList] = useState([]);
     const [token] = useState(localStorage.getItem('token'));
+    const [viewMode, setViewMode] = useState('list'); // 'list' or 'map'
 
     const [filters, setFilters] = useState({
         name: '',
@@ -45,8 +48,10 @@ const EventsPage = () => {
         try {
             setLoading(true);
             const url = new URL(`${BASE_URL}/events`);
+            // If in map view, we might want to fetch all events or a larger limit
+            // Fetching a large number to ensure all events are displayed on the map
             url.searchParams.append('page', page);
-            url.searchParams.append('limit', LIMIT);
+            url.searchParams.append('limit', viewMode === 'map' ? 1000 : LIMIT); // Fetch more for map
 
             const response = await fetch(url.toString(), {
                 method: 'GET',
@@ -60,7 +65,7 @@ const EventsPage = () => {
 
             const data = await response.json();
             setEvents(data.results);
-            setTotalPages(Math.ceil(data.count / LIMIT));
+            setTotalPages(Math.ceil(data.count / (viewMode === 'map' ? 1000 : LIMIT)));
 
         } catch (err) {
             setError('Failed to load events. Please try again later.');
@@ -68,11 +73,11 @@ const EventsPage = () => {
         } finally {
             setLoading(false);
         }
-    }, [page, BASE_URL]);
+    }, [page, BASE_URL, viewMode]);
 
     useEffect(() => {
         fetchEvents();
-    }, [fetchEvents, page]);
+    }, [fetchEvents, page, viewMode]);
 
     const handleRsvp = async (eventId) => {
         try {
@@ -257,13 +262,28 @@ const EventsPage = () => {
                     <p>Discover and join exclusive events happening near you.</p>
                 </div>
 
-                {canCreate && (
-                    <div className="header-actions">
-                        <Link to="/events/new" className="btn btn-primary">
+                <div className="header-actions">
+                    <div className="view-toggle">
+                        <button
+                            className={`toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
+                            onClick={() => setViewMode('list')}
+                        >
+                            <FaList /> List
+                        </button>
+                        <button
+                            className={`toggle-btn ${viewMode === 'map' ? 'active' : ''}`}
+                            onClick={() => setViewMode('map')}
+                        >
+                            <FaMapMarkedAlt /> Map
+                        </button>
+                    </div>
+
+                    {canCreate && (
+                        <Link to="/events/new" className="btn-create">
                             Create Event
                         </Link>
-                    </div>
-                )}
+                    )}
+                </div>
             </header>
 
             <section className="filters-section">
@@ -304,60 +324,70 @@ const EventsPage = () => {
                 <div className="no-events">No upcoming events found.</div>
             ) : (
                 <>
-                    {user && user.role === 'regular' && (
-                        <section className="my-events-section">
-                            <h2>My Events</h2>
-                            {organizedEventsList.length > 0 ? (
-                                <div className="events-grid">
-                                    {organizedEventsList.map(event => (
+                    {viewMode === 'list' ? (
+                        <>
+                            {user && user.role === 'regular' && (
+                                <section className="my-events-section">
+                                    <h2>My Events</h2>
+                                    {organizedEventsList.length > 0 ? (
+                                        <div className="events-grid">
+                                            {organizedEventsList.map(event => (
+                                                <EventCard
+                                                    key={event.id}
+                                                    event={event}
+                                                    onRsvp={handleRsvp}
+                                                    onCancelRsvp={handleCancelRsvp}
+                                                    isRsvped={userRsvps.has(event.id)}
+                                                    canEdit={true}
+                                                    onDelete={handleDelete}
+                                                />
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="no-events-placeholder">
+                                            You have no organized events at this time.
+                                        </div>
+                                    )}
+                                    <hr className="section-divider" />
+                                    <h2>All Events</h2>
+                                </section>
+                            )}
+
+                            <section className="events-grid">
+                                {filteredEvents.map(event => {
+                                    const canEdit = (user && (user.role === 'manager' || user.role === 'superuser')) || event.isOrganizer;
+
+                                    return (
                                         <EventCard
                                             key={event.id}
                                             event={event}
                                             onRsvp={handleRsvp}
                                             onCancelRsvp={handleCancelRsvp}
                                             isRsvped={userRsvps.has(event.id)}
-                                            canEdit={true}
+                                            canEdit={canEdit}
                                             onDelete={handleDelete}
                                         />
-                                    ))}
-                                </div>
-                            ) : (
-                                <div className="no-events-placeholder">
-                                    You have no organized events at this time.
-                                </div>
-                            )}
-                            <hr className="section-divider" />
-                            <h2>All Events</h2>
-                        </section>
+                                    );
+                                })}
+                            </section>
+
+                            <nav className="pagination">
+                                <button onClick={handlePrevPage} disabled={page === 1}>
+                                    Previous
+                                </button>
+                                <span>Page {page} of {totalPages}</span>
+                                <button onClick={handleNextPage} disabled={page === totalPages}>
+                                    Next
+                                </button>
+                            </nav>
+                        </>
+                    ) : (
+                        <MapView
+                            events={filteredEvents}
+                            onRsvp={handleRsvp}
+                            userRsvps={userRsvps}
+                        />
                     )}
-
-                    <section className="events-grid">
-                        {filteredEvents.map(event => {
-                            const canEdit = (user && (user.role === 'manager' || user.role === 'superuser')) || event.isOrganizer;
-
-                            return (
-                                <EventCard
-                                    key={event.id}
-                                    event={event}
-                                    onRsvp={handleRsvp}
-                                    onCancelRsvp={handleCancelRsvp}
-                                    isRsvped={userRsvps.has(event.id)}
-                                    canEdit={canEdit}
-                                    onDelete={handleDelete}
-                                />
-                            );
-                        })}
-                    </section>
-
-                    <nav className="pagination">
-                        <button onClick={handlePrevPage} disabled={page === 1}>
-                            Previous
-                        </button>
-                        <span>Page {page} of {totalPages}</span>
-                        <button onClick={handleNextPage} disabled={page === totalPages}>
-                            Next
-                        </button>
-                    </nav>
                 </>
             )}
         </main>
