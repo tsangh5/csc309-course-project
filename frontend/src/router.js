@@ -2,6 +2,8 @@ import React, { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 
+import CashierLayout from './pages/Cashier/CashierLayout';
+
 const Home = lazy(() => import('./pages/Home/Home'));
 const User = lazy(() => import('./pages/User/User'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
@@ -18,7 +20,6 @@ const CreatePromotion = lazy(() => import('./pages/Promotions/CreatePromotion'))
 const EditPromotion = lazy(() => import('./pages/Promotions/EditPromotion'));
 const PromotionsLayout = lazy(() => import('./pages/Promotions/PromotionsLayout'));
 const CashierDashboard = lazy(() => import('./pages/Cashier/CashierDashboard'));
-const CashierLayout = lazy(() => import('./pages/Cashier/CashierLayout'));
 const CreateTransaction = lazy(() => import('./pages/Cashier/CreateTransaction'));
 const ProcessRedemption = lazy(() => import('./pages/Cashier/ProcessRedemption'));
 const RegisterUser = lazy(() => import('./pages/Cashier/RegisterUser'));
