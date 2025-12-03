@@ -10,6 +10,7 @@ const Profile = () => {
     const [success, setSuccess] = useState('');
     const [passwordSuccess, setPasswordSuccess] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [birthdayString, setBirthdayString] = useState('');
 
     const [formData, setFormData] = useState({
         name: '',
@@ -53,10 +54,9 @@ const Profile = () => {
             setFormData({
                 name: data.name || '',
                 email: data.email || '',
-                birthday: data.birthday || '',
+                birthday: data.birthday.split('T')[0] || '',
                 avatar: data.avatarUrl || ''
             });
-            console.log(formData)
         } catch (err) {
             setError(err.message);
         } finally {
@@ -146,6 +146,18 @@ const Profile = () => {
         }
     };
 
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+
+        if (file) {
+            setFormData(prevData => ({
+                ...prevData,
+                avatarFile: file
+            }));
+        }
+        console.log(file)
+    };
+
     if (loading) return <div className="loading">Loading...</div>;
 
     return (
@@ -211,11 +223,10 @@ const Profile = () => {
                         <div className="form-group">
                             <label>Avatar URL</label>
                             <input
-                                type="url"
+                                type="file"
                                 name="avatar"
-                                value={formData.avatar}
-                                onChange={handleProfileChange}
-                                placeholder="https://example.com/avatar.jpg"
+                                accept="image/*"
+                                onChange={handleFileChange}
                             />
                         </div>
 

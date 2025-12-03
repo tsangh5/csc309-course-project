@@ -83,7 +83,7 @@ const EditPromotion = () => {
                 endTime: new Date(formData.endTime).toISOString()
             };
 
-            const response = await fetch(`/promotions/${id}`, {
+            const response = await fetch(`${BASE_URL}/promotions/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
